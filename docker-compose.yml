@@ -64,6 +64,15 @@ services:
     networks:
       - bavey-network
 
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    env_file:
+      - .env
+    ports:
+      - 15672:15672
+    networks:
+      - bavey-network
+
 networks:
   bavey-network:
     driver: bridge
