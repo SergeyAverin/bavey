@@ -23,7 +23,11 @@ const SavedPublicationPage: NextPage = () => {
         <Wrapper>
           <TwoColumnGrid firstColumnSize='70%' secondColumnSize='30%'>
             <div>
-                {!isLoading && data.map((user) => (<a href={`/user/${user.username}`}>{user.username}</a>))}   
+                {!isLoading && data.map((user) => (
+                  <Margin mt={30} >
+                    <a href={`/user/${user.username}`}>{user.username}</a>
+                  </Margin>
+                ))}   
             </div>
             <SearchFillterSideBar search={search}/>
           </TwoColumnGrid>
