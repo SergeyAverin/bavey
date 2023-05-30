@@ -10,7 +10,7 @@ const LogoutPage: NextPage = () => {
   const auth = useAuth();
 
   useEffect(()=>{
-    localStorage.setItem('token', '')
+    localStorage.removeItem('viewer')
     auth?.setAuthUser({token: null, username: null})
     router.push({
         pathname: '/login',
