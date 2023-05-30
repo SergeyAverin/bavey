@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 import { HeaderStyled } from "./styled";
 import { Logo, Wrapper, Margin, Flex } from "@shared/ui";
@@ -15,7 +16,9 @@ export const Header: React.FC = () => {
             <Wrapper>
                 <Flex alignItems="center" justifyContent="space-between">
                     <div>
-                        <Logo />
+                        <a href='/'>
+                            <Logo />
+                        </a>
                         <Margin ml={185}>
                             <NavigationSelect />
                         </Margin>

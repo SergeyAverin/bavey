@@ -73,6 +73,15 @@ services:
     networks:
       - bavey-network
 
+  flower:
+    image: mher/flower
+    env_file:
+      - .env
+    ports:
+      - 5555:5555
+    networks:
+      - bavey-network
+
 networks:
   bavey-network:
     driver: bridge

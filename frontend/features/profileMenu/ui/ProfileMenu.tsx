@@ -5,6 +5,7 @@ import { imageLoader } from "@shared/lib";
 import { UserAccauntStyled, DroppedMenu } from "./styled";
 import { Flex, Margin, LinkWithIcon, DropDownSelect } from '@shared/ui';
 import { useViewer } from "@entities/viewer";
+import { ChangeTheme } from "@features/theme/ui/ChangeTheme";
 
 import ArrowIcon from '@public/arrow.svg';
 import AvatarImage from '@public/Avatar.png';
@@ -35,7 +36,7 @@ export const ProfileMenu: React.FC = () => {
             </Margin>
   
             <Margin mt={30}>
-              <DropDownSelect items={['Светлая тема', 'Темная тема']} />
+              <ChangeTheme />
               <DropDownSelect items={['Русский язык', 'Английский язык']} />
             </Margin>
   

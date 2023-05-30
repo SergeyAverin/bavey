@@ -9,6 +9,7 @@ import { friendRequestApi } from '@entities/friendRequest/api/friendRequestApi';
 import { publicationCreatorApi } from '@features/createPublication';
 import { voicesButtonApi } from '@features/SetVoicesButton';
 import { savedPublicationApi } from '@widgets/savedPublicationList'
+import { themeReducer } from '@features/theme';
 
 
 const combinedReducer = combineReducers({
@@ -20,6 +21,7 @@ const combinedReducer = combineReducers({
   [publicationCreatorApi.reducerPath]: publicationCreatorApi.reducer,
   [voicesButtonApi.reducerPath]: voicesButtonApi.reducer,
   [savedPublicationApi.reducerPath]: savedPublicationApi.reducer,
+  theme: themeReducer
 });
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {
