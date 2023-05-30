@@ -44,6 +44,7 @@ export const PublicationList: React.FC<IPublicationList> = ({ publicationsFromSe
     
     return (
         <>
+            { publications.length == 0 && <div>No publications</div> }
             { publications.map((publication) => (
                 <Margin mb={30}  key={publication.publication.slug}>
                     <Publication

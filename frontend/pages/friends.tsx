@@ -30,6 +30,7 @@ const FriendsPage: NextPage = () => {
         <Wrapper>
           <TwoColumnGrid firstColumnSize='70%' secondColumnSize='30%'>
             <div>
+            { friends.length == 0 && <h2>No friends</h2> }
             {friends.map((friend) => (
               <Margin mb={30} key={friend.username}>
                 <Relation

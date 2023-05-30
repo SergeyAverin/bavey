@@ -26,18 +26,25 @@ export const Publication: React.FC<IPublicationProps> = (props) => {
         <PublicationText>
           { props.publication.publication.title }
         </PublicationText>
-        <MediaImageSlider images={props.publication.publication_media} />
+
+        <PublicationWrapper>
+          <MediaImageSlider images={props.publication.publication_media} />
+        </PublicationWrapper>
+
         <MediaFile files={props.publication.publication_media} />
         <PublicationWrapper>
-        <Flex justifyContent="space-between" alignItems="center">
-          <Flex justifyContent="flex-start" alignItems="center">
-            { props.upVoiceButtonSlot }
-            <Margin ml={15}>
-              { props.downVoiceButtonSlot }              
-            </Margin>
+        <Margin mt={15}>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Flex justifyContent="flex-start" alignItems="center">
+              { props.upVoiceButtonSlot }
+              <Margin ml={15}>
+                { props.downVoiceButtonSlot }              
+              </Margin>
+            </Flex>
+            { props.bookmarkVoiceButtonSlot }
           </Flex>
-          { props.bookmarkVoiceButtonSlot }
-        </Flex>
+        </Margin>
+        
         </PublicationWrapper>
     </PublicationStyle>
   )

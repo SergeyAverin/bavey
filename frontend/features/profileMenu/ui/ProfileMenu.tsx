@@ -18,12 +18,11 @@ export const ProfileMenu: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const viewerContext = useViewer();
     const username = viewerContext.authViewer.user.username;
-    const avatar = '/media/user/avatars/download.jpg'
-   
+    const user = viewerContext.authViewer.user;
     return (
       <UserAccauntStyled>
           <Flex alignItems="center" justifyContent="flex-start" onClick={() => setIsOpen((prev) => !prev)}>
-            <Image loader={imageLoader}  src={avatar} alt={username} width={40} height={40} />
+            <Image loader={imageLoader}  src={user.avatar} alt={username} width={40} height={40} />
             <ArrowIcon transform={isOpen ? "rotate(0 0 0)" : "rotate(-90 0 0)"} />
           </Flex>
           <DroppedMenu isOpen={isOpen}>
@@ -37,7 +36,6 @@ export const ProfileMenu: React.FC = () => {
   
             <Margin mt={30}>
               <ChangeTheme />
-              <DropDownSelect items={['Русский язык', 'Английский язык']} />
             </Margin>
   
             <Margin mt={30}>
@@ -47,3 +45,6 @@ export const ProfileMenu: React.FC = () => {
       </UserAccauntStyled>
     )
 }
+/*
+<DropDownSelect items={['Русский язык', 'Английский язык']} />
+*/

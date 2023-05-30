@@ -11,8 +11,26 @@ import FlexStyled from '../styles/components/Flex';
 import ButtonStyled from '../styles/components/Button';
 import { useProfileQuery, useUpdateUserMutation } from '../redux/api/userApi';
 import { SubmitStyled } from '../styles/components/Submit';
+import { Header } from '@widgets/header';
+import { Wrapper } from '@shared/ui';
+import { Subscription } from '@entities/community';
+import { SettingForm } from '@features/settings/ui/SettingsForm';
 
 
+const SettingPage: NextPage = () => {
+    return (
+        <>
+            <Header />
+            <Margin mt={100}>
+                <Wrapper>
+                    <SettingForm />
+                </Wrapper>
+            </Margin>
+        </>
+    )
+};
+
+/*
 const ProfilePage: NextPage = () => {
     const [updateUser] = useUpdateUserMutation();
     const router = useRouter();
@@ -29,7 +47,7 @@ const ProfilePage: NextPage = () => {
     const submitHandler = (event: React.SyntheticEvent) => {
         event.preventDefault();
         updateUser(userSetting);
-        router.push('/profile')
+        router.push('/user/' + userSetting.username)
     };
 
     const clickCancelHandler = () => {
@@ -72,5 +90,5 @@ const ProfilePage: NextPage = () => {
         </BaseLayout>
     )
 };
-
-export default ProfilePage;
+*/
+export default SettingPage;

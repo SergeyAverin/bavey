@@ -9,7 +9,10 @@ export const PublicationStyle = styled.div`
 
 export const PublicationWrapper = styled.div`
     max-width: 90%;
+    max-height: 400px;
+    object-fit: cover;
     margin: auto;
+    overflow: hidden;
 `;
 
 export const PublicationText = styled.p`
@@ -19,4 +22,11 @@ export const PublicationText = styled.p`
     max-width: 90%;
     margin: auto;
     margin-top: 8px;
+`;
+
+export const PublicationMediaImageStyled = styled.div`
+    margin: auto;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
 `;
