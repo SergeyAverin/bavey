@@ -79,11 +79,11 @@ class Community(models.Model):
     admins = models.ManyToManyField(User, related_name="admin", blank=True)
     subscribers = models.ManyToManyField(User, related_name="subscribers", blank=True)
 
-    def save(self, *args, **kwargs):
-        # auto add owner in admins and subscribers
-        self.admins.add(self.owner)
-        self.subscribers.add(self.owner)
-        super(User, self).save(*args, **kwargs)
+    #def save(self, *args, **kwargs):
+    #    # auto add owner in admins and subscribers
+    #    self.admins.add(self.owner)
+    #    self.subscribers.add(self.owner)
+    #    super(User, self).save(*args, **kwargs)
 
 
 class WallTypeChoices(models.TextChoices):

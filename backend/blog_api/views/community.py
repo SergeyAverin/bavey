@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 
 from blog_api.serializers import CommunitySerializer, PublicationSerializer, UserSerializer
 from blog_api.services.community import CommunityService
+from blog_api.models import Community
 from blog_api.services.publications import PublicationService
 from core.permission import IsAdminOrReadOnly
 
@@ -36,6 +37,10 @@ class CreateCommunityApiView(APIView):
         IsAuthenticated,
     ]
     service = CommunityService()
+
+    def get(self, request):
+        community =  Community.objects.filter(subscribers=request.user)
+        return Response(CommunitySerializer(community, many=True).data)
 
     def post(self, request):
         try:
