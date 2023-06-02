@@ -24,13 +24,21 @@ export const CreatePublication:React.FC<ICreatePublicationProps> = ({wallSlug, w
 
         if (inputValue != '') {
             const formData = new FormData();
-            formData.append('image', image);
+            for (let i = 0; i < image.length; i++) {
+              formData.append('image' + i, image[i]);
+            }
             formData.append('title', inputValue);
+            console.log(formData)
             createPublication({wallSlug: wallSlug, wallType: wallType, body: formData});
 
             setInputValues('');
             setImage();
         }
+    };
+
+    const handleFileChange = (event) => {
+        const selectedFiles = Array.from(event.target.files);
+        setImage(selectedFiles);
     };
 
     return (
@@ -42,7 +50,7 @@ export const CreatePublication:React.FC<ICreatePublicationProps> = ({wallSlug, w
             />
             <Margin mt={15}>
                 <Flex alignItems="center" justifyContent="space-between" >
-                    <AddImage multiple={true} accept="image/*"  onChange={(event) => setImage(event.target.files[0])} />
+                    <AddImage multiple={true} accept="image/*"  onChange={handleFileChange} />
                     <PublicationButton value="Public" />
                 </Flex>
             </Margin>

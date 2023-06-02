@@ -21,10 +21,13 @@ export const Publication: React.FC<IPublicationProps> = (props) => {
         <PublicationWrapper>
             { props.publicationHeader }
         </PublicationWrapper>
-        <PublicationText>
-          { props.publication.publication.title }
-        </PublicationText>
 
+        <Margin mt={15} mb={15}>
+          <PublicationText>
+            { props.publication.publication.title }
+          </PublicationText>
+        </Margin>
+        
         <PublicationWrapper>
           <MediaImageSlider images={props.publication.publication_media} />
         </PublicationWrapper>

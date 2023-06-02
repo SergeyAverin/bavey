@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import get_object_or_404
 from django.db.models import QuerySet
 from rest_framework.exceptions import ValidationError
@@ -5,6 +7,8 @@ from rest_framework.exceptions import ValidationError
 from blog_api.models import User, Publication, WallTypeChoices, PublicationMedia, MediaTypeChoices
 from blog_api.serializers import UserSerializer
 
+
+logger = logging.getLogger()
 
 class UserBlogService:
     def get_user_by_username(self, username: str) -> User:
@@ -63,6 +67,5 @@ class UserBlogService:
             media_file.image = file
             media_file.publication = publicaton
             media_file.save()
-
 
         return publicaton
