@@ -21,8 +21,10 @@ interface IPuvlicationVoicesProps {
 export const PublicationVoices: React.FC<IPuvlicationVoicesProps> = ({ publication }) => {
     const theme = useContext(ThemeContext);
     const viewerContext = useViewer();
-    //const username = viewerContext.authViewer.user.username;
-    const username = 'root';
+    let username = 'username';
+    if (process.browser) {
+      username = viewerContext.authViewer.user.username;
+    }
     const isUserSetVoice = (voices: [IUser], username:string) => {
         for (let voice of voices) {
             if (voice.username == username) {

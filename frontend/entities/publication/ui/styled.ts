@@ -11,7 +11,6 @@ export const PublicationWrapper = styled.div`
     max-width: 90%; 
     object-fit: cover;
     margin: auto;
-    overflow: hidden;
 `;
 
 export const PublicationText = styled.p`

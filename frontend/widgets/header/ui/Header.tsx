@@ -16,7 +16,7 @@ export const Header: React.FC = () => {
             <Wrapper>
                 <Flex alignItems="center" justifyContent="space-between">
                     <div>
-                        <a href={!isAuthenticated ? '/' : '/login'}>
+                        <a href={isAuthenticated ? '/' : '/login'}>
                             <Logo />
                         </a>
                         <Margin ml={185}>

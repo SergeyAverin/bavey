@@ -6,6 +6,8 @@ import { MediaFile } from "@entities/publication/ui/MediaFile";
 import { IPublication } from '../model/types';
 import { Flex } from "@shared/ui";
 import { Margin } from "@shared/ui";
+import { PublicationMenu } from "@entities/publication/ui/PublicationMenu";
+import { useViewer } from "@entities/viewer";
 
 
 
@@ -16,10 +18,22 @@ interface IPublicationProps {
 }
 
 export const Publication: React.FC<IPublicationProps> = (props) => {
+  const viewerContext = useViewer();
+  let username = 'username';
+  let ownerUsername = 'owner';
+  if (process.browser) {
+    username = viewerContext.authViewer.user.username;
+    ownerUsername = props.publication.owner.username;
+  }
+
   return (
     <PublicationStyle>
         <PublicationWrapper>
+          <Flex justifyContent="space-between" alignItems="center">
             { props.publicationHeader }
+            { username == ownerUsername && <PublicationMenu slug={props.publication.publication.slug} />}
+            
+          </Flex>
         </PublicationWrapper>
 
         <Margin mt={15} mb={15}>
