@@ -52,6 +52,7 @@ const UserPage: NextPage<IUserPageProps> = ({ user, publications, friends }) => 
 export default UserPage;
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
+  
   (store: Store) => async (context: GetServerSidePropsContext) => {
     const username = context.query.username as string;
     const userRequest = await store.dispatch(userApi.endpoints.getUser.initiate(username))
@@ -59,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     const publicationsRequest = await store.dispatch(userApi.endpoints.getPublicationList.initiate({
       username: username,
       offset: 0,
-      limit: 5
+      limit: 16
     }))
     await Promise.all(store.dispatch(userApi.util.getRunningQueriesThunk()))
     const user = userRequest.data;

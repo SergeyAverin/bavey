@@ -25,6 +25,7 @@ class PublicationSerializer(serializers.ModelSerializer):
             'wall_type',
             'wall_user',
             'wall_community',
+            'creation_date',
             'publication_media',
         ]
 

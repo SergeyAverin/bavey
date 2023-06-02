@@ -8,7 +8,7 @@ urlpatterns = [
     path('publications/saved', views.SavedPublication.as_view()),
     path('publications/<slug:slug>', views.PublicationsApiView.as_view()),
     path('publications/<slug:publication_slug>/voices', views.VoicesApiView.as_view()),
-    # User api    
+    # User api
     path('user/<str:username>', views.UserApiView.as_view()),
     path('user/<str:username>/publications', views.UserPublicationApiView.as_view()),
     path('user/<str:username>/statistic', views.UserStatisticApiView.as_view()),

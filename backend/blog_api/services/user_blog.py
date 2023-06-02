@@ -35,7 +35,7 @@ class UserBlogService:
         :return: list publication from user wall.
         """
         user = self.get_user_by_username(username)
-        publications = Publication.objects.filter(wall_user=user)
+        publications = Publication.objects.filter(wall_user=user).order_by('-creation_date')
         return publications
 
     def create_publication_on_user_wall(

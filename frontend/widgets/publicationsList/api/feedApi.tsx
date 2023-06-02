@@ -26,7 +26,17 @@ export const feedApi = baseApi.injectEndpoints({
       // Refetch when the page arg changes
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg
-      }
+      },
+      providesTags: (result) =>
+        // is result available?
+        result
+          ? // successful query
+            [
+              ...result.map(({ publication }) => ({ type: 'Publication', id: publication.slug})),
+              { type: 'Publication', id: 'LIST' },
+            ]
+          : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
+            [{ type: 'Publication', id: 'LIST' }],
     }),
     
   })

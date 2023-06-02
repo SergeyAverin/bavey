@@ -10,3 +10,4 @@ export { TwoColumnGrid } from "./TwoColumnGrid/TwoColumnGrid";
 export { Input } from "./Input/Input";
 export { Submit } from "./Submit/Submit";
 export { FillWrapper } from './FillWrapper/FillWrapper';
+export { CursorPointer } from './CursorPointer/CursorPointer';

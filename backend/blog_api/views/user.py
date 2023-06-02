@@ -31,7 +31,32 @@ class UserApiView(APIView):
             return Response({"error": e.detail}, status=400)
 
 
-class UserPublicationApiView(ListAPIView):
+#class UserPublicationApiView(ListAPIView):
+#    permission_classes = (IsAuthenticatedOrReadOnly, )
+#    serializer_class = PublicationSerializer
+#    service = UserBlogService()
+#
+#    def get_queryset(self):
+#        return self.service.get_publication_from_user_wall(self.kwargs["username"])
+#
+#    def get(self, request, username):
+#        queryset = self.filter_queryset(self.get_queryset())
+#        page = self.paginate_queryset(queryset)
+#        publication_service = PublicationService()
+#        data = publication_service.get_serialized_publicaitons_with_voices(page)
+#        return Response(data)
+#
+#    def post(self, request, username):
+#        wall_user = self.service.get_user_by_username(username)
+#        print(request.FILES)
+#        
+#        publication = self.service.create_publication_on_user_wall(
+#            request.data.get("title"), request.user, wall_user, request.FILES
+#        )
+#        return Response(
+#            PublicationSerializer(publication).data, status=status.HTTP_201_CREATED
+#        )
+class UserPublicationApiView(APIView):
     permission_classes = (IsAuthenticatedOrReadOnly, )
     serializer_class = PublicationSerializer
     service = UserBlogService()
@@ -40,8 +65,7 @@ class UserPublicationApiView(ListAPIView):
         return self.service.get_publication_from_user_wall(self.kwargs["username"])
 
     def get(self, request, username):
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
+        page = self.get_queryset()
         publication_service = PublicationService()
         data = publication_service.get_serialized_publicaitons_with_voices(page)
         return Response(data)
@@ -49,14 +73,13 @@ class UserPublicationApiView(ListAPIView):
     def post(self, request, username):
         wall_user = self.service.get_user_by_username(username)
         print(request.FILES)
-        
+
         publication = self.service.create_publication_on_user_wall(
             request.data.get("title"), request.user, wall_user, request.FILES
         )
         return Response(
             PublicationSerializer(publication).data, status=status.HTTP_201_CREATED
         )
-
 
 class UserStatisticApiView(ListAPIView):
     permission_classes = (IsAuthenticated,)

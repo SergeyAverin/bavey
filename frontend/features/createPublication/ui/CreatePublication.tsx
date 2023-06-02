@@ -16,7 +16,7 @@ interface ICreatePublicationProps {
 
 export const CreatePublication:React.FC<ICreatePublicationProps> = ({wallSlug, wallType}) => {
     const [inputValue, setInputValues] = useState('');
-    const [image, setImage] = useState(new Blob());
+    const [image, setImage] = useState();
     const [createPublication] = useCreatePublicationMutation();
 
     const submitHandler = async (event: React.SyntheticEvent) => {
@@ -29,7 +29,7 @@ export const CreatePublication:React.FC<ICreatePublicationProps> = ({wallSlug, w
             createPublication({wallSlug: wallSlug, wallType: wallType, body: formData});
 
             setInputValues('');
-            setImage(new Blob());
+            setImage();
         }
     };
 

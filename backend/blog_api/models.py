@@ -4,6 +4,32 @@ from django.contrib.auth.models import AbstractUser
 from core.utils import slug_save
 
 
+class UpVoice(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    voice = models.ForeignKey('Publication', on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['date_created']
+
+class DownVoice(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    voice = models.ForeignKey('Publication', on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['date_created']
+
+
+class BookmarksVoice(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    voice = models.ForeignKey('Publication', on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['date_created']
+
+
 class User(AbstractUser):
     description = models.TextField(
         "Description in profile header", null=True, blank=True
@@ -23,13 +49,13 @@ class User(AbstractUser):
 
     # Saved publications
     voices_up = models.ManyToManyField(
-        "Publication", related_name="voices_up", blank=True
+        "Publication", through=UpVoice, related_name="voices_up", blank=True
     )
     voices_down = models.ManyToManyField(
-        "Publication", related_name="voices_down", blank=True
+        "Publication", through=DownVoice, related_name="voices_down", blank=True
     )
     bookmarks = models.ManyToManyField(
-        "Publication", related_name="bookmarks", blank=True
+        "Publication", through=BookmarksVoice, related_name="bookmarks", blank=True
     )
 
     # User relations
@@ -70,7 +96,7 @@ class Publication(models.Model):
     # Owner is user who create this publication
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner")
     slug = models.SlugField(unique=True, blank=True, null=True)
-    creation_date = models.DateField(auto_now_add=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     # The wall is where the post is displayed
     wall_type = models.CharField(max_length=10, choices=WallTypeChoices.choices)

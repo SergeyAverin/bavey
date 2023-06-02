@@ -12,9 +12,7 @@ import { Margin } from "@shared/ui";
 interface IPublicationProps {
   publication: IPublication
   publicationHeader: React.ReactNode,
-  upVoiceButtonSlot: React.ReactNode,
-  downVoiceButtonSlot: React.ReactNode,
-  bookmarkVoiceButtonSlot: React.ReactNode,
+  publicationVoiceSlot: React.ReactNode
 }
 
 export const Publication: React.FC<IPublicationProps> = (props) => {
@@ -34,15 +32,7 @@ export const Publication: React.FC<IPublicationProps> = (props) => {
         <MediaFile files={props.publication.publication_media} />
         <PublicationWrapper>
         <Margin mt={15}>
-          <Flex justifyContent="space-between" alignItems="center">
-            <Flex justifyContent="flex-start" alignItems="center">
-              { props.upVoiceButtonSlot }
-              <Margin ml={15}>
-                { props.downVoiceButtonSlot }              
-              </Margin>
-            </Flex>
-            { props.bookmarkVoiceButtonSlot }
-          </Flex>
+          { props.publicationVoiceSlot }
         </Margin>
         
         </PublicationWrapper>

@@ -6,5 +6,6 @@ interface iSetVoiceCountStyledProps {
 }
 
 export const SetVoiceCountStyled = styled.div<iSetVoiceCountStyledProps>`
+    margin-left: 5px;
     color: ${(props) => props.isEnable ? props.theme.color.grean : props.theme.color.white};
 `;

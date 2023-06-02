@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Flex } from "@shared/ui";
+import { Flex, CursorPointer } from "@shared/ui";
 import { SetVoiceCountStyled } from "@features/SetVoicesButton/ui/styled";
 import { useSetVoiceMutation } from "../api/voicesButtonApi";
 
@@ -15,20 +15,20 @@ interface ISetVoiceButtonProps {
 }
 
 export const SetVoiceButton: React.FC<ISetVoiceButtonProps> = ({ isEnableProps, voiceCount, iconDisable, iconEnable, publicationSlug, voiceType }) => {
-    const [isEnable, setIsEnable] = useState(isEnableProps);
     const [ setVoice ] = useSetVoiceMutation();
     
     const clickHeandler = (event: React.MouseEvent) => {
-        setIsEnable(prev => !prev);
         setVoice({ publicationSlug: publicationSlug, voiceType: voiceType });
     }
 
     return (
-        <Flex justifyContent="center" alignItems="center" onClick={clickHeandler}>
-            { isEnable ? iconEnable : iconDisable }
-            <SetVoiceCountStyled isEnable={isEnable}>
-                { voiceCount }
-            </SetVoiceCountStyled>
-        </Flex>
+        <CursorPointer>
+            <Flex justifyContent="center" alignItems="center" onClick={clickHeandler}>
+                { isEnableProps ? iconEnable : iconDisable }
+                <SetVoiceCountStyled isEnable={isEnableProps}>
+                    { voiceCount }
+                </SetVoiceCountStyled>
+            </Flex>
+        </CursorPointer>
     )
 }
