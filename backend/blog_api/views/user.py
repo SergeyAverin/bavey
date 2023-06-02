@@ -72,7 +72,9 @@ class UserPublicationApiView(APIView):
 
     def post(self, request, username):
         wall_user = self.service.get_user_by_username(username)
-        print(request.FILES)
+
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication credentials were not provided.'}, status=401)
 
         publication = self.service.create_publication_on_user_wall(
             request.data.get("title"), request.user, wall_user, request.FILES
@@ -82,7 +84,6 @@ class UserPublicationApiView(APIView):
         )
 
 class UserStatisticApiView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
     service = UserBlogService()
 
     def get(self, request, username):

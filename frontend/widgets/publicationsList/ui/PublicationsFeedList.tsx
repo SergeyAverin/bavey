@@ -13,6 +13,7 @@ import { Center } from './styled';
 import DownVoiceIcon from '@public/downVoiceIcon.svg';
 import BookmarkIcon from '@public/bookmarkIcon.svg';
 import UpVoiceIcon from '@public/upVoiceIcon.svg';
+import { PublicationVoices } from '@features/SetVoicesButton/ui/PublicationVoices';
 
 
 export const PublicationFeedList: React.FC = () => {
@@ -45,29 +46,7 @@ export const PublicationFeedList: React.FC = () => {
                     <Publication
                         publicationHeader={<UserMini user={publication.owner} />}
                         publication={publication} 
-                        upVoiceButtonSlot={<SetVoiceButton
-                            publicationSlug={publication.publication.slug}
-                            voiceType='voices_up'
-                            iconDisable={<UpVoiceIcon fill={theme.color.white} />}
-                            iconEnable={<UpVoiceIcon fill={theme.color.grean} />}
-                            voiceCount={publication.voices_up.length}
-                        />}
-                        downVoiceButtonSlot={<SetVoiceButton
-                            publicationSlug={publication.publication.slug}
-                            isEnableProps={false}
-                            voiceType='voices_down'
-                            iconDisable={<DownVoiceIcon fill={theme.color.white} />}
-                            iconEnable={<DownVoiceIcon fill={theme.color.grean} />}
-                            voiceCount={publication.voices_down.length}
-                        />}
-                        bookmarkVoiceButtonSlot={<SetVoiceButton
-                            publicationSlug={publication.publication.slug}
-                            isEnableProps={false}
-                            voiceType='bookmarks'
-                            iconDisable={<BookmarkIcon fill={theme.color.white} />}
-                            iconEnable={<BookmarkIcon fill={theme.color.grean} />}
-                            
-                        />}
+                        publicationVoiceSlot={<PublicationVoices publication={publication} />}
                     />
                 </Margin>
             ))}

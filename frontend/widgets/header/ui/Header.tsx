@@ -16,11 +16,13 @@ export const Header: React.FC = () => {
             <Wrapper>
                 <Flex alignItems="center" justifyContent="space-between">
                     <div>
-                        <a href='/'>
+                        <a href={!isAuthenticated ? '/' : '/login'}>
                             <Logo />
                         </a>
                         <Margin ml={185}>
-                            <NavigationSelect />
+                           
+                        { (isAuthenticated && process.browser) && <NavigationSelect />}
+
                         </Margin>
                     </div>
                     <Flex alignItems="center" justifyContent="flex-start">
@@ -28,7 +30,7 @@ export const Header: React.FC = () => {
                             <Search />
                         </Margin>
                         { (isAuthenticated && process.browser) && <ProfileMenu />}
-                        { (!isAuthenticated && process.browser) && <h1>sdf</h1>}
+                        { (!isAuthenticated && process.browser) && <Link href='/login'>login</Link>}
                     </Flex>
                     
                 </Flex>

@@ -1,8 +1,10 @@
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from blog_api.serializers import UserSerializer
+from .service import AuthService
 
 
 class AuthToken(ObtainAuthToken):
@@ -15,3 +17,22 @@ class AuthToken(ObtainAuthToken):
             'token': token.key,
             'user': UserSerializer(user).data
         })
+
+
+class CreateUserView(APIView):
+    service = AuthService()
+
+    def post(self, request):
+        user = self.service.create_user(
+            username=request.data['username'],
+            password=request.data['password'],
+            first_name=request.data['first_name'],
+            last_name=request.data['last_name'],
+            email=request.data['email'],
+        )
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'user': UserSerializer(user).data
+        })
+

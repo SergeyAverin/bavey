@@ -12,6 +12,14 @@ interface ILoginArgs {
     password: string
 }
 
+interface IRegistrationArgs {
+  username: string,
+  first_name: string,
+  last_name: string,
+  email: string,
+  password: string
+}
+
 
 export const viewerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -24,11 +32,22 @@ export const viewerApi = baseApi.injectEndpoints({
           body: data
         };
       },
+    }),
+
+    registration: builder.mutation<ILoginResult, IRegistrationArgs>({
+      query(data) {
+        return {
+          url: 'auth_api/registration',
+          method: 'POST',
+          body: data
+        };
+      },
     })
     
   })
 })
 
 export const {
-  useLoginMutation
+  useLoginMutation,
+  useRegistrationMutation
 } = viewerApi;

@@ -46,7 +46,7 @@ export const LoginForm: React.FC = () => {
               <Link href="#">Забыл пароль</Link>
             </Margin>
             <Margin mt={15}>
-              <Link href="/registration">Регистрация</Link>
+              <Link href="#">Регистрация</Link>
             </Margin>
           </div>
         </Flex>

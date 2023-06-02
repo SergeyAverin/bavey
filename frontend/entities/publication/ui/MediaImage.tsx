@@ -19,7 +19,8 @@ interface IMediaImageSliderProps {
 export const MediaImageSlider: React.FC<IMediaImageSliderProps> = ({ images }) => {
     images = images.filter((media) => media.type == 'image')
     const [imageNumber, setImageNumber] = useState(0);
-    const pageCount = images.length;
+    let pageCount = 0;
+    pageCount = images.length;
     let image = images[imageNumber]
 
     useEffect(() => {
@@ -44,22 +45,24 @@ export const MediaImageSlider: React.FC<IMediaImageSliderProps> = ({ images }) =
     }
     return (
         <div>
-                { pageCount != 1 && 
+                { pageCount > 1 && 
                     <Margin mb={15}>
                         <Flex justifyContent="space-between" alignItems="center">
                             <MediaImageNumbers>{`${imageNumber + 1} / ${pageCount}`}</MediaImageNumbers>
 
                             <Flex  justifyContent="flex-start" alignItems="center">
-                                <MediaImageButton onClick={nextImage}>+</MediaImageButton>
-                                <MediaImageButton onClick={previousImage}>-</MediaImageButton>
-                            </Flex>
+                                <MediaImageButton onClick={previousImage}>←</MediaImageButton>
+                                <MediaImageButton onClick={nextImage}>→</MediaImageButton>
+                            </Flex> 
                         </Flex>
                     </Margin>
                 }
-            
-            <PublicationMediaImagesStyled>
-                <MediaImage isActive={true} src={imageLoader({src:image.image})}   />
-            </PublicationMediaImagesStyled>
+                { images.length > 0 &&
+                    <PublicationMediaImagesStyled>
+                         <MediaImage isActive={true} src={imageLoader({src:image.image})}   />
+                     </PublicationMediaImagesStyled>
+                }
+   
         </div>
         
     )

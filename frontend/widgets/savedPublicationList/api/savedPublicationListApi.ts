@@ -16,6 +16,7 @@ export const savedPublicationApi = baseApi.injectEndpoints({
         return {
         url: `blog_api/publications/saved`,
       }},
+      providesTags: ['Publication']
     }),
     
   })

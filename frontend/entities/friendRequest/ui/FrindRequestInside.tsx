@@ -4,9 +4,8 @@ import Link from "next/link";
 
 import { Margin, Button, Flex} from "@shared/ui";
 import { FriendRequestStyled } from "./styled";
+import { imageLoader } from '@shared/lib';
 import { IFriendRequest } from "../model/types";
-
-import photo from '@public/Avatar.png';
 
 
 interface IFriendRequestInsideProps {
@@ -19,10 +18,11 @@ export const FriendRequestInside: React.FC<IFriendRequestInsideProps> = ({ frien
     return (
         <FriendRequestStyled>
             <Image
-                src={photo}
+                src={friendRequest.sender.avatar}
                 alt={friendRequest.sender.username}
                 width={90}
                 height={90}
+                loader={imageLoader}
             />
             <Margin ml={30}>
                 <h2>

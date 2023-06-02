@@ -67,9 +67,6 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     const publications = publicationsRequest.data;
     const friends = userFriendsRequest.data;
     
-    console.log('=-=-=-=-=-=-=-=-=-=')
-    console.log(userFriendsRequest)
-    
     return {
       props: {
         user: user,

@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import get_object_or_404
 from django.db.models import QuerySet
 
@@ -5,6 +7,8 @@ from blog_api.models import User, Subscription
 from blog_api.serializers import UserSerializer
 from relations_api.relation_status import RelationStatus
 
+
+logger = logging.getLogger()
 
 class RelationsService:
     """This is a class for managing user relationships."""
@@ -100,10 +104,20 @@ class RelationsService:
         subscribers = self.get_subsctibers(user)
         subscriptions = self.get_subscriptions(user)
 
-        subscribers_serializer = UserSerializer(subscribers, many=True)
-        friends_serializer = UserSerializer(friends, many=True)
-        subscriptions_serializer = UserSerializer(subscriptions, many=True)
+        subscribers_data = []
+        for subscriber in subscribers:
+            data = subscriber.subscription_user
+            subscribers_data.append(data)
 
+        subscriptions_data = []
+        for subscription in subscriptions:
+            data = subscription.subscription_user
+            subscriptions_data.append(data)
+
+        subscribers_serializer = UserSerializer(subscribers_data, many=True)
+        friends_serializer = UserSerializer(friends, many=True)
+        subscriptions_serializer = UserSerializer(subscriptions_data, many=True)
+        logger.error(subscriptions)
         return {
             "subscribers": subscribers_serializer.data,
             "friends": friends_serializer.data,

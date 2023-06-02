@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 
 import { Flex, CursorPointer } from "@shared/ui";
 import { SetVoiceCountStyled } from "@features/SetVoicesButton/ui/styled";
@@ -15,8 +16,16 @@ interface ISetVoiceButtonProps {
 }
 
 export const SetVoiceButton: React.FC<ISetVoiceButtonProps> = ({ isEnableProps, voiceCount, iconDisable, iconEnable, publicationSlug, voiceType }) => {
-    const [ setVoice ] = useSetVoiceMutation();
+    const [ setVoice, { error } ] = useSetVoiceMutation();
+    const router = useRouter();
     
+    if (error) {
+        if (error.status == 401) {
+            router.push('/login')
+
+        }
+    }
+
     const clickHeandler = (event: React.MouseEvent) => {
         setVoice({ publicationSlug: publicationSlug, voiceType: voiceType });
     }

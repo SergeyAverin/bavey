@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { PublicationCreatorStyled, PublicationInput, AddImage, PublicationButton } from "./styled";
 import { Flex, Margin } from "@shared/ui";
@@ -17,15 +18,25 @@ interface ICreatePublicationProps {
 export const CreatePublication:React.FC<ICreatePublicationProps> = ({wallSlug, wallType}) => {
     const [inputValue, setInputValues] = useState('');
     const [image, setImage] = useState();
-    const [createPublication] = useCreatePublicationMutation();
+    const [createPublication, { error }] = useCreatePublicationMutation();
+    const router = useRouter();
+
+    if (error) {
+        if (error.status == 401) {
+            router.push('/login')
+
+        }
+    }
 
     const submitHandler = async (event: React.SyntheticEvent) => {
         event.preventDefault();
 
-        if (inputValue != '') {
+        if (inputValue != '' || image) {
             const formData = new FormData();
-            for (let i = 0; i < image.length; i++) {
-              formData.append('image' + i, image[i]);
+            if (image) {
+                for (let i = 0; i < image.length; i++) {
+                    formData.append('image' + i, image[i]);
+                }
             }
             formData.append('title', inputValue);
             console.log(formData)
@@ -35,6 +46,15 @@ export const CreatePublication:React.FC<ICreatePublicationProps> = ({wallSlug, w
             setImage();
         }
     };
+
+    const changeImput = (event:React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = event.target.value;
+        if (inputValue.length <= 300) {
+            setInputValues(inputValue);
+        } else {
+            setInputValues(inputValue.slice(0, 300));
+        }
+    }
 
     const handleFileChange = (event) => {
         const selectedFiles = Array.from(event.target.files);
@@ -46,12 +66,18 @@ export const CreatePublication:React.FC<ICreatePublicationProps> = ({wallSlug, w
             <PublicationInput
                 placeholder="What’s Happening?"
                 value={inputValue}
-                onChange={(event:React.ChangeEvent<HTMLInputElement>) => setInputValues(event.target.value)}
+                onChange={changeImput}
+                maxLength={300}
             />
             <Margin mt={15}>
                 <Flex alignItems="center" justifyContent="space-between" >
                     <AddImage multiple={true} accept="image/*"  onChange={handleFileChange} />
-                    <PublicationButton value="Public" />
+                    <Flex alignItems="center" justifyContent="flex-start">
+                        <Margin mr={15}>
+                            {`${inputValue.length}/${300}`}
+                        </Margin>
+                        <PublicationButton value="Public" />
+                    </Flex>
                 </Flex>
             </Margin>
         </PublicationCreatorStyled>
