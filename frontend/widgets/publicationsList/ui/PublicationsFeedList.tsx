@@ -37,7 +37,6 @@ export const PublicationFeedList: React.FC = () => {
         document.removeEventListener("scroll", onScroll);
         };
     }, [page, pulicationListQuery.isFetching]);
-    console.log(publications)
     
     return (
         <Center>

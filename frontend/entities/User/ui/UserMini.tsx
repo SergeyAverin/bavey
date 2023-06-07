@@ -13,7 +13,6 @@ interface IUserMiniProps {
 }
 
 export const UserMini: React.FC<IUserMiniProps> = ({ user }) => {
-    console.log()
     return (
         <UserMiniStyled>
             <Link href={'/user/'  + user.username}>

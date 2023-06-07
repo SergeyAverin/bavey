@@ -140,5 +140,7 @@ class RelationsService:
             relation_type = RelationStatus.SUBSCRIBED
         if slave_user.user_subscriptions.filter(subscription_user=master_user).exists():
             relation_type = RelationStatus.SUBSCRIBER
+        if master_user == slave_user:
+            relation_type = RelationStatus.PROFILE
 
         return relation_type

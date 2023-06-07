@@ -39,7 +39,6 @@ export const CreatePublication:React.FC<ICreatePublicationProps> = ({wallSlug, w
                 }
             }
             formData.append('title', inputValue);
-            console.log(formData)
             createPublication({wallSlug: wallSlug, wallType: wallType, body: formData});
 
             setInputValues('');

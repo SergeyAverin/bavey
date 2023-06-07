@@ -33,7 +33,6 @@ export const PublicationVoices: React.FC<IPuvlicationVoicesProps> = ({ publicati
         }
         return false;
     }
-    console.log(username)
     return (
         <Flex justifyContent="space-between"  alignItems="center">
             <Flex justifyContent="flex-start" alignItems="center">

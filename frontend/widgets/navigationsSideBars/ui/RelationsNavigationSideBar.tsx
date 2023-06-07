@@ -13,10 +13,10 @@ export const RelationsNavigationSideBar: React.FC  = () => {
         <NavigationSideBarStyled>
             <LinkWithIcon href="/friends" text='Friends' icon={<FriendsIcon />} isActive={false} />
             <Margin mt={15}>
-                <LinkWithIcon href="/friendsRequests#inside" text='requests inside' icon={<InsideIcon />} isActive={false} />
+                <LinkWithIcon href="/friendsRequests#inside" text='Входящие запросы' icon={<InsideIcon />} isActive={false} />
             </Margin>
             <Margin mt={15}>
-                <LinkWithIcon href="/friendsRequests#outside" text='requests outisde' icon={<OutsideIcon />} isActive={false} />
+                <LinkWithIcon href="/friendsRequests#outside" text='Исходящие запросы' icon={<OutsideIcon />} isActive={false} />
             </Margin>
         </NavigationSideBarStyled>
     )

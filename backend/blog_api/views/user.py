@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -13,6 +15,8 @@ from ..serializers import PublicationSerializer
 from core.permission import IsProfileOrReadOnly, IsAuthenticatedOrReadOnly
 
 
+logger = logging.getLogger()
+
 class UserApiView(APIView):
     permission_classes = (
         IsProfileOrReadOnly,
@@ -25,9 +29,11 @@ class UserApiView(APIView):
 
     def patch(self, request, username):
         try:
+            logger.error(request.data)
             new_data = self.service.update_user(username, request.data)
             return Response(new_data.data)
         except ValidationError as e:
+            logger.error( e.detail)
             return Response({"error": e.detail}, status=400)
 
 

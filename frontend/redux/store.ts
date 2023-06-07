@@ -9,6 +9,7 @@ import { friendRequestApi } from '@entities/friendRequest/api/friendRequestApi';
 import { publicationCreatorApi } from '@features/createPublication';
 import { voicesButtonApi } from '@features/SetVoicesButton';
 import { savedPublicationApi } from '@widgets/savedPublicationList'
+import { settingApi } from '@features/settings/api/settingApi';
 import { themeReducer } from '@features/theme';
 
 
@@ -21,6 +22,7 @@ const combinedReducer = combineReducers({
   [publicationCreatorApi.reducerPath]: publicationCreatorApi.reducer,
   [voicesButtonApi.reducerPath]: voicesButtonApi.reducer,
   [savedPublicationApi.reducerPath]: savedPublicationApi.reducer,
+  [settingApi.reducerPath]: settingApi.reducer,
   theme: themeReducer
 });
 
@@ -50,6 +52,7 @@ export const makeStore = () =>
         publicationCreatorApi.middleware,
         voicesButtonApi.middleware,
         savedPublicationApi.middleware,
+        settingApi.middleware,
       ]),
 });
 

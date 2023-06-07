@@ -6,6 +6,7 @@ import { withAuth } from '@entities/viewer';
 import { useSearchQuery } from '@features/search';
 import { Header } from '@widgets/header';
 import { SearchFillterSideBar } from '@widgets/navigationsSideBars';
+import dynamic from 'next/dynamic';
 
 
 const SavedPublicationPage: NextPage = () => {
@@ -15,7 +16,7 @@ const SavedPublicationPage: NextPage = () => {
     search = router.query['search'] as string
   }
   const { data, isLoading } = useSearchQuery({search, fillter: router.query['fillter']});
-  console.log(data)
+
   return (
     <>
       <Header />
@@ -38,4 +39,6 @@ const SavedPublicationPage: NextPage = () => {
 };
 
 
-export default withAuth(SavedPublicationPage);
+export default dynamic(() => Promise.resolve(withAuth(SavedPublicationPage)), {
+  ssr: false
+});

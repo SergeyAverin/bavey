@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 export const ChangeTheme:React.FC<IDropDownSelectProps> = () => {
-    const items = ['dark', 'ligth']
+    const items = ['Темная тема', 'Светлая тема']
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(true);
     const [activeItem, setActiveItem] = useState(items[0]);
@@ -19,11 +19,9 @@ export const ChangeTheme:React.FC<IDropDownSelectProps> = () => {
         setIsOpen((prev) => !prev);
         const target = event.target as HTMLElement;
         setActiveItem(target.innerText);
-        if (target.innerText == 'dark') {
-            console.log('dark')
+        if (target.innerText == 'Темная тема') {
             dispatch(toggleTheme({isDark: true}));
-        } else if (target.innerText == 'ligth') {
-            console.log('ligth')
+        } else if (target.innerText == 'Светлая тема') {
             dispatch(toggleTheme({isDark: false}));
         }
     };

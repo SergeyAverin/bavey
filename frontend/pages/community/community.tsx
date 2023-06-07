@@ -1,3 +1,4 @@
+/*
 import type { NextPage, GetServerSidePropsContext, GetServerSideProps } from 'next';
 import type { Store } from '../../redux/store';
 import { useRouter } from 'next/router';
@@ -105,3 +106,4 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     }
   },
 )
+*/

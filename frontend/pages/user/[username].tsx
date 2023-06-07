@@ -11,6 +11,7 @@ import { UserFriends } from '@widgets/userFriends';
 import { UserStatistic } from '@widgets/statistic/ui/UserStatistic';
 
 import { Store, wrapper } from '../../redux/store';
+import dynamic from 'next/dynamic';
 
 
 interface IUserPageProps {
@@ -49,8 +50,8 @@ const UserPage: NextPage<IUserPageProps> = ({ user, publications, friends }) => 
   )
 };
 
-export default UserPage;
 
+// export default UserPage;
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   
   (store: Store) => async (context: GetServerSidePropsContext) => {
@@ -76,3 +77,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     }
   },
 )
+
+export default dynamic(() => Promise.resolve(UserPage), {
+  ssr: false
+});

@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { imageLoader } from "@shared/lib";
 import { IUser } from "../model/types";
@@ -18,6 +19,7 @@ interface IUserAvetarProps {
 
 export const UserAvetar: React.FC<IUserAvetarProps> = ({ user, unfriendSlot, unsubscribeSlot, subscribeSlot, addFriendSlot }) => {
     const { data, isLoading } = useGetRelationForUserQuery(user.username);
+    const router = useRouter();
 
     return (
         <UserAvetarStyled>
@@ -29,7 +31,6 @@ export const UserAvetar: React.FC<IUserAvetarProps> = ({ user, unfriendSlot, uns
                     }
                     { !isLoading && data.relationship_type == 'friend' &&
                         <div>
-                            <Button>Send Message</Button>
                             {unfriendSlot}
                         </div>
                     }
@@ -41,8 +42,15 @@ export const UserAvetar: React.FC<IUserAvetarProps> = ({ user, unfriendSlot, uns
                     { !isLoading && data.relationship_type == 'subscriber' &&
                         <div></div>
                     }
+                
                 </Flex>
             </Margin>
         </UserAvetarStyled>
     )
 };
+/*
+                            <Button>Send Message</Button>
+    { !isLoading && data.relationship_type == 'profile' &&
+                        <Button onClick={() => {router.push('/settings')}}>Edit</Button>
+                    }
+*/

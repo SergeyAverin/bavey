@@ -5,6 +5,8 @@ import { SettingsForm } from './styled';
 import { useUpdateSettingsMutation } from "@features/settings/api/settingApi";
 import { useGetUserQuery } from "@entities/User";
 import { useViewer } from "@entities/viewer";
+import { useRouter } from "next/router";
+import { imageLoader } from "@shared/lib";
 
 
 export const SettingForm: React.FC = () => {
@@ -12,47 +14,65 @@ export const SettingForm: React.FC = () => {
     const username = viewerContext.authViewer.user.username;
 
     const [updateSetting] = useUpdateSettingsMutation();
-    const [image, setImage] = useState(new Blob());
+    const [image, setImage] = useState();
+    const router = useRouter();
     const [userSetting, setUserSetting] = useState({
         username: '',
         first_name: '',
         last_name: '',
         description: '',
-        country: '',
-        city: '',
     });
     const {data, isLoading} = useGetUserQuery(username);
+    
+    async function fetchImage(url){
+        const data = await fetch(url);
+        console.log(data);
+        const buffer = await data.arrayBuffer();
+        const blob = new Blob([buffer], { type: "image/png"});
+        return blob;
+    }
     useEffect(()=>{
         if (!isLoading) {
             setUserSetting({
                 username: data.username,
                 first_name: data.first_name,
                 last_name: data.last_name,
-                description: data.description,
-                country: data.country,
-                city: data.city,
+                description: data.description
             })
+            console.log(imageLoader({src: data.avatar}))
+
+ 
+            fetchImage(imageLoader({src: data.avatar}))
+                .then(blob  => new File([blob],'file.png'))
+                .then(file  => {
+                    const dT = new ClipboardEvent('').clipboardData || new DataTransfer();
+                    dT.items.add(file)
+                    console.log(dT.files.item)
+                    setImage(dT.files[0])
+                });
         }
     }, [isLoading])
 
     const change = (event:React.ChangeEvent<HTMLInputElement>, key: string) => {
-        console.log(event)
         setUserSetting({...userSetting, [key]: event})
     }
     const submitHandler = async (event: React.SyntheticEvent) => {
         event.preventDefault();
         const formData = new FormData();
         formData.append('avatar', image);
-        formData.append('username', userSetting.username);
-        formData.append('first_name', userSetting.first_name);
-        formData.append('last_name', userSetting.last_name);
-        formData.append('description', userSetting.description);
-        formData.append('country', userSetting.country);
-        formData.append('city', userSetting.city);
-        updateSetting({slug: userSetting.username, body: formData});
+        formData.append('username', userSetting.username.toString());
+        formData.append('first_name', userSetting.first_name.toString());
+        formData.append('last_name', userSetting.last_name.toString());
+        formData.append('description', userSetting.description.toString());
+        const data = {};
+        for (const [key, value] of formData.entries()) {
+            data[key] = value;
+        }
+        updateSetting({slug: userSetting.username, body: data});
+        router.push(`/user/${userSetting.username}`)
     };
     return (
-        <SettingsForm onSubmit={()=> {}}>
+        <SettingsForm onSubmit={submitHandler} method="POST">
             <Margin mt={10}>
                 <Flex alignItems='center' justifyContent='space-between'>
                     <Button onClick={(event)=> {change}}>Cancel</Button>
@@ -64,6 +84,8 @@ export const SettingForm: React.FC = () => {
                                 <input
                                     accept="image/*" 
                                     type="file"
+                                    value={image}
+                                    
                                     onChange={(event) => setImage(event.target.files[0])}
                                 />
                             </Margin>
@@ -98,25 +120,7 @@ export const SettingForm: React.FC = () => {
                                 setInputValues={(event) => {change(event, 'description')}}
                             />
                             </Margin>
-                            <Margin mt={15}>
-                            <Input
-                                attrName="country"
-                                inputValues={userSetting.country}
-                                labelText="country"
-                                setInputValues={(event) => {change(event, 'country')}}
-                            />
-                            </Margin>
-                            <Margin mt={15}>
-                            <Input
-                                attrName="city"
-                                inputValues={userSetting.city}
-                                labelText="city"
-                                setInputValues={(event) => {change(event, 'city')}}
-                            />
-                            </Margin>
-
-                            
-
+                
                         </div>
                     
                 </Margin>

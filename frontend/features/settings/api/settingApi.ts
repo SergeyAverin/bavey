@@ -13,11 +13,10 @@ export const settingApi = baseApi.injectEndpoints({
         query({ slug, body }) {
           return {
             url: `blog_api/user/${slug}`,
-            method: 'POST',
+            method: 'PATCH',
             body: body,
           };
-        },
-        invalidatesTags: ['Statistic']
+        }
     }),
 
   })

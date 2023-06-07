@@ -29,16 +29,12 @@ export const NavigationSelect: React.FC = () => {
         { isOpen &&
             <>
                 <Margin mt={20} mb={15}>
-                    <LinkWithIcon isActive={false} text='Friends' href='/friends' icon={<FriendsIcon stroke={theme.color.white}  />} />
+                    <LinkWithIcon isActive={false} text='Друзья' href='/friends' icon={<FriendsIcon stroke={theme.color.white}  />} />
                 </Margin>
+             
                 <Margin mb={15}>
                     <div>
-                        <LinkWithIcon isActive={false} text='Subscriptions' href='/subscriptions' icon={<CommunityIcon fill={theme.color.white}  />} />
-                    </div>
-                </Margin>
-                <Margin mb={15}>
-                    <div>
-                        <LinkWithIcon isActive={false} text='Saved' href='/saved/up' icon={<BookmarkIcon fill={theme.color.white}  />} />
+                        <LinkWithIcon isActive={false} text='Сохранено' href='/saved/up' icon={<BookmarkIcon fill={theme.color.white}  />} />
                     </div>
                 </Margin>
             </>
@@ -46,4 +42,10 @@ export const NavigationSelect: React.FC = () => {
         </NavigationBlockStyled>
     )
 };
-
+/*
+   <Margin mb={15}>
+                    <div>
+                        <LinkWithIcon isActive={false} text='Subscriptions' href='/subscriptions' icon={<CommunityIcon fill={theme.color.white}  />} />
+                    </div>
+                </Margin>
+*/

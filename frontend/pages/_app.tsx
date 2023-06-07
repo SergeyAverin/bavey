@@ -12,7 +12,6 @@ import { ViewerContextProvider } from '@entities/viewer';
 
 function MyApp({ Component, ...rest  }: AppProps) {
   const isDarkMode = useSelector((state) => state.theme.darkMode);
-  console.log(isDarkMode)
 
   const theme = isDarkMode ? darkTheme : ligthTheme;
   const { store, props } = wrapper.useWrappedStore(rest);

@@ -17,10 +17,13 @@ export const SearchFillterSideBar: React.FC<ISearchFillterSideBarProps> = ({sear
 
     return (
         <NavigationSideBarStyled>
-            <LinkWithIcon href={`/search/user?search=${search}`} text='user' icon={<UserIcon />} isActive={false} />
+            <LinkWithIcon href={`/search/user?search=${search}`} text='Пользователи' icon={<UserIcon />} isActive={false} />
             <Margin mt={15}>
-                <LinkWithIcon href={`/search/community?search=${search}`} text='community' icon={<CommunityIcon  />} isActive={false} />
             </Margin>
         </NavigationSideBarStyled>
     )
 }
+/*
+                <LinkWithIcon href={`/search/community?search=${search}`} text='community' icon={<CommunityIcon  />} isActive={false} />
+
+\*/
