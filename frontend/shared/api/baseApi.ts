@@ -6,7 +6,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQuery,
-  tagTypes: ['Relation', 'FriendRequests', 'Voice', 'Statistic', 'Publication', 'Community'],
+  tagTypes: ['Relation', 'FriendRequests', 'Voice', 'Statistic', 'Publication', 'Community', 'Subscription'],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath]

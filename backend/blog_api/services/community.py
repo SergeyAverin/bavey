@@ -5,6 +5,10 @@ from django.db.models import QuerySet
 from blog_api.models import Community, Publication, WallTypeChoices, User
 from blog_api.serializers import CommunitySerializer
 
+import logging
+
+logger = logging.getLogger()
+
 
 class CommunityService:
     def get_community_by_title(self, title: str) -> Community:
@@ -25,7 +29,7 @@ class CommunityService:
         :return: list publication from community wall.
         """
         community = self.get_community_by_title(community_title)
-        publications = Publication.objects.filter(wall_community=community)
+        publications = Publication.objects.filter(wall_community=community).order_by('-creation_date')
         return publications
 
     def create_publication_on_community_wall(

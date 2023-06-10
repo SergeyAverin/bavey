@@ -79,6 +79,13 @@ class Community(models.Model):
     admins = models.ManyToManyField(User, related_name="admin", blank=True)
     subscribers = models.ManyToManyField(User, related_name="subscribers", blank=True)
 
+    community_avatar = models.ImageField(
+        upload_to="community/community_avatar",
+        null=True,
+        blank=True,
+        default='user/avatars/default_avatar.png'
+    )
+
     #def save(self, *args, **kwargs):
     #    # auto add owner in admins and subscribers
     #    self.admins.add(self.owner)

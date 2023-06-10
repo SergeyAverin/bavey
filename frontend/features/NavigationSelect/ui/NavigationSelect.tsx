@@ -37,15 +37,15 @@ export const NavigationSelect: React.FC = () => {
                         <LinkWithIcon isActive={false} text='Сохранено' href='/saved/up' icon={<BookmarkIcon fill={theme.color.white}  />} />
                     </div>
                 </Margin>
+
+                <Margin mb={15}>
+                    <div>
+                        <LinkWithIcon isActive={false} text='Subscriptions' href='/subscriptions' icon={<CommunityIcon fill={theme.color.white}  />} />
+                    </div>
+                </Margin>
             </>
         }   
         </NavigationBlockStyled>
     )
 };
-/*
-   <Margin mb={15}>
-                    <div>
-                        <LinkWithIcon isActive={false} text='Subscriptions' href='/subscriptions' icon={<CommunityIcon fill={theme.color.white}  />} />
-                    </div>
-                </Margin>
-*/
+

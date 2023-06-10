@@ -29,6 +29,9 @@ export const ProfileMenu: React.FC = () => {
             <Margin mt={15}>
               <LinkWithIcon href={`/user/${username}`} icon={<ProfileIcon />} text={username} isActive={false} />
             </Margin>
+            <Margin mt={15}>
+              <LinkWithIcon href="/settings" icon={<SettingIcon />} text="Settings" isActive={false} />
+            </Margin>
   
            
   
@@ -45,7 +48,5 @@ export const ProfileMenu: React.FC = () => {
 }
 /*
 <DropDownSelect items={['Русский язык', 'Английский язык']} />
- <Margin mt={15}>
-              <LinkWithIcon href="/settings" icon={<SettingIcon />} text="Settings" isActive={false} />
-            </Margin>
+
 */

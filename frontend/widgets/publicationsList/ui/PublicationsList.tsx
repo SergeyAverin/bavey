@@ -11,13 +11,14 @@ import { PublicationVoices } from '@features/SetVoicesButton/ui/PublicationVoice
 
 
 interface IPublicationList {
-    publicationsFromServerRender: IPublication[]
+    publicationsFromServerRender: IPublication[],
+    getPublication: Function
 }
 
-export const PublicationList: React.FC<IPublicationList> = ({ publicationsFromServerRender }) => {
+export const PublicationList: React.FC<IPublicationList> = ({ publicationsFromServerRender, getPublication }) => {
     const router = useRouter();
-    const username = router.query.username;
-    const pulicationListQuery = useGetPublicationListQuery({username: username});
+    const pulicationListQuery = getPublication();
+    console.log(pulicationListQuery)
     // const publications = pulicationListQuery.data ?? [];
     const publications = pulicationListQuery.data ?? publicationsFromServerRender;
     const theme = useContext(ThemeContext)

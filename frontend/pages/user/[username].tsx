@@ -1,7 +1,7 @@
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next'
 
 import { Wrapper, ThreeColumnGrid, Margin } from '@shared/ui';
-import { userApi, IUser } from '@entities/User';
+import { userApi, IUser, useGetPublicationListQuery } from '@entities/User';
 import { relationApi } from '@entities/relation';
 import { CreatePublication } from '@features/createPublication';
 import { Header } from '@widgets/header';
@@ -40,7 +40,10 @@ const UserPage: NextPage<IUserPageProps> = ({ user, publications, friends }) => 
                   wallSlug={user.username}
                   wallType='user' />
               </Margin>
-              <PublicationList publicationsFromServerRender={publications} />
+              <PublicationList
+                publicationsFromServerRender={publications}
+                getPublication={() => useGetPublicationListQuery({username: user.username})}
+              />
             </div>  
             <UserStatistic username={user.username} />
           </ThreeColumnGrid>

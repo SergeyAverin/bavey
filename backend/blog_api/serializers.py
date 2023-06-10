@@ -33,4 +33,9 @@ class PublicationSerializer(serializers.ModelSerializer):
 class CommunitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Community
-        fields = ['title', 'description', 'creation_date']
+        fields = [
+            'title',
+            'description',
+            'creation_date',
+            'community_avatar',
+        ]

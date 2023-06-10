@@ -4,6 +4,7 @@ import { Wrapper, TwoColumnGrid, Margin } from '@shared/ui';
 import { Header } from '@widgets/header';
 import { Subscription } from '@entities/community';
 import { withAuth } from '@entities/viewer';
+import { UnsubscriptionButton } from '@features/communityButton';
 import { useGetCommunityListQuery } from '@entities/community/api/communityApi';
 
 
@@ -20,7 +21,9 @@ const SubsctiptionPage: NextPage = () => {
         <Wrapper>
           {communites.map((community) => (
               <Margin mb={30} key={community.title}>
-                  <Subscription community={community} />
+                  <Subscription
+                    community={community}
+                    communitySubscribeButton={<UnsubscriptionButton title={community.title} />} />
               </Margin>
             ))}
         </Wrapper>

@@ -14,7 +14,7 @@ export const SettingForm: React.FC = () => {
     const username = viewerContext.authViewer.user.username;
 
     const [updateSetting] = useUpdateSettingsMutation();
-    const [image, setImage] = useState();
+    const [image, setImage] = useState(null);
     const router = useRouter();
     const [userSetting, setUserSetting] = useState({
         username: '',
@@ -47,8 +47,10 @@ export const SettingForm: React.FC = () => {
                 .then(file  => {
                     const dT = new ClipboardEvent('').clipboardData || new DataTransfer();
                     dT.items.add(file)
-                    console.log(dT.files.item)
-                    setImage(dT.files[0])
+                    console.log('file')
+                    console.log(file)
+                    setImage(file)
+                    // reader.readAsDataURL(dT.files[0]);
                 });
         }
     }, [isLoading])
@@ -59,7 +61,9 @@ export const SettingForm: React.FC = () => {
     const submitHandler = async (event: React.SyntheticEvent) => {
         event.preventDefault();
         const formData = new FormData();
-        formData.append('avatar', image);
+        if (image) {
+            formData.append('avatar', image);
+        }
         formData.append('username', userSetting.username.toString());
         formData.append('first_name', userSetting.first_name.toString());
         formData.append('last_name', userSetting.last_name.toString());
@@ -70,6 +74,9 @@ export const SettingForm: React.FC = () => {
         }
         updateSetting({slug: userSetting.username, body: data});
         router.push(`/user/${userSetting.username}`)
+    };
+    const handleFileChange = (event) => {
+        setImage(event.target.files[0]);
     };
     return (
         <SettingsForm onSubmit={submitHandler} method="POST">
@@ -84,9 +91,7 @@ export const SettingForm: React.FC = () => {
                                 <input
                                     accept="image/*" 
                                     type="file"
-                                    value={image}
-                                    
-                                    onChange={(event) => setImage(event.target.files[0])}
+                                    onChange={handleFileChange}
                                 />
                             </Margin>
                             <Input

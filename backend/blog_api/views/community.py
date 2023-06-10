@@ -10,13 +10,12 @@ from blog_api.serializers import CommunitySerializer, PublicationSerializer, Use
 from blog_api.services.community import CommunityService
 from blog_api.models import Community
 from blog_api.services.publications import PublicationService
-from core.permission import IsAdminOrReadOnly
+from core.permission import IsAdminOrReadOnly, IsAuthenticatedOrReadOnly
 
 
 class CommunityApiView(APIView):
     permission_classes = (
-        IsAuthenticated,
-        IsAdminOrReadOnly,
+        IsAuthenticatedOrReadOnly,
     )
     service = CommunityService()
 
@@ -38,7 +37,7 @@ class CreateCommunityApiView(APIView):
     ]
     service = CommunityService()
 
-    def get(self, request):
+    def get(self, request): 
         community =  Community.objects.filter(subscribers=request.user)
         return Response(CommunitySerializer(community, many=True).data)
 
@@ -52,7 +51,7 @@ class CreateCommunityApiView(APIView):
             return Response({"error": str(e)}, status=400)
 
 
-class CommunityPublicationApiView(ListAPIView):
+class CommunityPublicationApiView(APIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = PublicationSerializer
     service = CommunityService()
@@ -61,8 +60,7 @@ class CommunityPublicationApiView(ListAPIView):
         return self.service.get_community_publications(self.kwargs["title"])
 
     def get(self, request, title):
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
+        page = self.get_queryset()
         publication_service = PublicationService()
         data = publication_service.get_serialized_publicaitons_with_voices(page)
         return Response(data)
@@ -79,10 +77,14 @@ class CommunityPublicationApiView(ListAPIView):
 
 class CommunityStatisticApiView(ListAPIView):
     permission_classes = (IsAuthenticated,)
+    service = CommunityService()
 
     def get(self, request, title):
+        community = self.service.get_community_by_title(title)
+        subscribers_count = community.subscribers.count()
+        publication_count = self.service.get_community_publications(title).count()
         return Response(
-            {"subscribers": 0, "friends": 0, "subscriptions": 0},
+            {"subscribers": subscribers_count, "publications": publication_count },
             status=status.HTTP_200_OK,
         )
 
@@ -91,9 +93,22 @@ class CommunitySubscribersApiView(APIView):
     service = CommunityService()
 
     def get(self, request, title):
-        community = self.service.get_community_by_title(title)
-        subscribers = self.service.get_communit_subscribers(community)
-        return Response(UserSerializer(subscribers, many=True).data)
+        user = request.user
+        community  = self.service.get_community_by_title(title)
+
+        if not request.user.is_authenticated:
+            return Response({
+                'relationship_type': 'no_auth'
+            }, status=status.HTTP_200_OK)
+        relation_type = ''
+        if user in community.subscribers.all():
+            relation_type = 'subscriber'
+        else:
+            relation_type = 'subscribe'
+
+        return Response({
+            'relationship_type': relation_type
+        }, status=status.HTTP_200_OK)
 
     def post(self, request, title):
         community = self.service.get_community_by_title(title)
