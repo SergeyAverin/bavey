@@ -6,7 +6,7 @@ import { CreatePublication } from '@features/createPublication';
 import { Header } from '@widgets/header';
 import { PublicationList } from '@widgets/publicationsList';
 import { UserStatistic } from '@widgets/statistic/ui/UserStatistic';
-import { CommunityInfo, ICommunity } from '@entities/community';
+import { CommunityInfo, CommunityMini, ICommunity } from '@entities/community';
 import { communityApi, useGetPublicationListQuery } from '@entities/community';
 import { DateCreated } from '@widgets/dateCreated';
 import { Store, wrapper } from '../../redux/store';

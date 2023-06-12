@@ -7,16 +7,18 @@ import { ICommunity } from 'types/user';
 export const communityApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
-    getCommunity: builder.query<ICommunity, string>({
+    getCommunity: builder.query<[ICommunity], string>({
       query: (title) => ({
         url: `blog_api/community/${title}`
-      })
+      }),
+      providesTags: ['Community'],
     }),
 
     getCommunityList: builder.query<any, void>({
       query: () => ({
-        url: `blog_api/community/`
-      })
+        url: `blog_api/community/`,
+      }),
+      providesTags: ['Community'],
     }),
 
     getCommunityPublicationList: builder.query<IPublication[], any>({

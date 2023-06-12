@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from django.db.models import QuerySet
 
-from blog_api.models import Community, Publication, WallTypeChoices, User
+from blog_api.models import Community, Publication, WallTypeChoices, User, PublicationMedia, MediaTypeChoices
 from blog_api.serializers import CommunitySerializer
 
 import logging
@@ -33,7 +33,7 @@ class CommunityService:
         return publications
 
     def create_publication_on_community_wall(
-        self, title: str, owner: User, wall_community: Community
+        self, title: str, owner: User, wall_community: Community, images
     ) -> Publication:
         """
         This method create publication on user wall.
@@ -49,6 +49,14 @@ class CommunityService:
         publicaton.wall_community = wall_community
         publicaton.owner = owner
         publicaton.save()
+
+        for filename, file in images.items():
+            media_file = PublicationMedia()
+            media_file.type = MediaTypeChoices.IMAGE
+            media_file.image = file
+            media_file.publication = publicaton
+            media_file.save()
+        
         return publicaton
 
     def update_community(self, title, new_data):
@@ -66,6 +74,8 @@ class CommunityService:
         community.title = community_title
         community.owner = user
         community.save()
+        community.subscribers.add(user)
+        community.admins.add(user)
         return community
 
     def get_communit_subscribers(self, community: Community) -> QuerySet[User]:

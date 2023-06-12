@@ -1,7 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.generics import ListAPIView
 
-from blog_api.models import Publication, User
+from blog_api.models import Publication, User, Community, Subscription
 from blog_api.serializers import PublicationSerializer
 from blog_api.services.publications import PublicationService
 from sklearn.cluster import KMeans
@@ -68,3 +69,19 @@ def feed(request):
     data = service.get_serialized_publicaitons_with_voices(predict_publication)
 
     return Response(data, status=200)
+
+class TimeFeed(ListAPIView):
+    def get_queryset(self):
+        service = PublicationService()
+        communities = Community.objects.filter(subscribers=self.request.user)
+        # subscription = Subscription.objects.filter()
+        user_friends = self.request.user.friends.all()
+        publication = Publication.objects.filter(wall_community__in=communities).order_by('-creation_date')
+        #data = service.get_serialized_publicaitons_with_voices(publication)
+        return publication
+    
+    def get(self, request): 
+        service = PublicationService()
+        publications = self.get_queryset()
+        data = service.get_serialized_publicaitons_with_voices(publications)
+        return Response(data, status=200)

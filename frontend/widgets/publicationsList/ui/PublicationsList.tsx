@@ -7,7 +7,7 @@ import { Publication } from '@entities/publication';
 import { useGetPublicationListQuery, UserMini } from '@entities/User';
 import { IPublication } from '@entities/publication';
 import { PublicationVoices } from '@features/SetVoicesButton/ui/PublicationVoices';
-
+import { CommunityMini } from '@entities/community';
 
 
 interface IPublicationList {
@@ -23,14 +23,18 @@ export const PublicationList: React.FC<IPublicationList> = ({ publicationsFromSe
     const publications = pulicationListQuery.data ?? publicationsFromServerRender;
     const theme = useContext(ThemeContext)
 
-    
     return (
         <>
             { publications.length == 0 && <div>No publications</div> }
             { publications.map((publication) => (
                 <Margin mb={30}  key={publication.publication.slug}>
                     <Publication
-                        publicationHeader={<UserMini user={publication.owner} />}
+                        publicationHeader={
+                            publication.publication.wall_type == 'user'? 
+                            <UserMini user={publication.owner} />
+                            :
+                            <CommunityMini community={publication.community}/>
+                        }
                         publication={publication} 
                         publicationVoiceSlot={<PublicationVoices publication={publication} />}
                     />

@@ -34,3 +34,10 @@ export const SubscriptionTitleStyled = styled.div`
     color: ${(props) => props.theme.color.grean};
     cursor: pointer;
 `
+
+export const CommunityMiniStyled = styled.div`
+    cursor: pointer;
+    color: ${(props) => props.theme.color.grean};
+    font-size: 18px;
+    font-weight: 600;
+`;

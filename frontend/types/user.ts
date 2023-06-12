@@ -36,7 +36,7 @@ export interface IFriendRequest {
 
 export interface ICommunity {
     name: string,
-    slug: string,
+    title: string,
     description: string,
     creation_date: string
 };

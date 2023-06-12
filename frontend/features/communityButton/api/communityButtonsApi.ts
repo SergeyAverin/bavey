@@ -11,7 +11,7 @@ export const friendRequestButtonApi = baseApi.injectEndpoints({
             method: 'POST'
           };
         },
-        invalidatesTags: (result, error, { title }) => [{ type: 'Community', id: title }, 'Statistic']
+        invalidatesTags: ['Community', 'Statistic']
     }),
 
     unsubscription: builder.mutation<any, string>({
@@ -21,7 +21,7 @@ export const friendRequestButtonApi = baseApi.injectEndpoints({
             method: 'DELETE'
           };
         },
-        invalidatesTags: (result, error, { title }) => [{ type: 'Community', id: title }, 'Statistic']
+        invalidatesTags: ['Community', 'Statistic']
     }),
 
     getSubscrib: builder.query<string, string>({

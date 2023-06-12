@@ -6,6 +6,7 @@ import { Subscription } from '@entities/community';
 import { withAuth } from '@entities/viewer';
 import { UnsubscriptionButton } from '@features/communityButton';
 import { useGetCommunityListQuery } from '@entities/community/api/communityApi';
+import { CreateCommunity } from '@features/createCommunity';
 
 
 const SubsctiptionPage: NextPage = () => {
@@ -19,6 +20,7 @@ const SubsctiptionPage: NextPage = () => {
       <Header />
       <Margin mt={100}> 
         <Wrapper>
+          <CreateCommunity />
           {communites.map((community) => (
               <Margin mb={30} key={community.title}>
                   <Subscription

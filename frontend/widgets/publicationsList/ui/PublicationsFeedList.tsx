@@ -14,6 +14,7 @@ import DownVoiceIcon from '@public/downVoiceIcon.svg';
 import BookmarkIcon from '@public/bookmarkIcon.svg';
 import UpVoiceIcon from '@public/upVoiceIcon.svg';
 import { PublicationVoices } from '@features/SetVoicesButton/ui/PublicationVoices';
+import { CommunityMini } from '@entities/community';
 
 
 export const PublicationFeedList: React.FC = () => {
@@ -43,7 +44,12 @@ export const PublicationFeedList: React.FC = () => {
             { publications.map((publication) => (
                 <Margin mb={30}  key={publication.publication.slug}>
                     <Publication
-                        publicationHeader={<UserMini user={publication.owner} />}
+                        publicationHeader={
+                            publication.publication.wall_type == 'user'? 
+                            <UserMini user={publication.owner} />
+                            :
+                            <CommunityMini community={publication.community}/>
+                        }
                         publication={publication} 
                         publicationVoiceSlot={<PublicationVoices publication={publication} />}
                     />

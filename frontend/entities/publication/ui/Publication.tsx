@@ -8,6 +8,7 @@ import { Flex } from "@shared/ui";
 import { Margin } from "@shared/ui";
 import { PublicationMenu } from "@entities/publication/ui/PublicationMenu";
 import { useViewer } from "@entities/viewer";
+import Link from "next/link";
 
 
 
@@ -48,6 +49,8 @@ export const Publication: React.FC<IPublicationProps> = (props) => {
 
         <MediaFile files={props.publication.publication_media} />
         <PublicationWrapper>
+        { props.publication.publication.wall_type == 'community'
+        && <a href={`/user/${props.publication.owner.username}`}>Autor: {props.publication.owner.username}</a> }
         <Margin mt={15}>
           { props.publicationVoiceSlot }
         </Margin>

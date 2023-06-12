@@ -67,8 +67,12 @@ class CommunityPublicationApiView(APIView):
 
     def post(self, request, title):
         wall_community = self.service.get_community_by_title(title)
+
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication credentials were not provided.'}, status=401)
+
         publication = self.service.create_publication_on_community_wall(
-            request.data.get("title"), request.user, wall_community
+            request.data.get("title"), request.user, wall_community, request.FILES
         )
         return Response(
             PublicationSerializer(publication).data, status=status.HTTP_201_CREATED
