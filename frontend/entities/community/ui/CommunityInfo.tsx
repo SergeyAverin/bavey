@@ -7,6 +7,7 @@ import { Flex, Margin } from "@shared/ui";
 import { imageLoader } from "@shared/lib";
 import { UnsubscriptionButton, SubscriptionButton, useGetSubscribQuery } from "@features/communityButton";
 import { Wrapper } from "@shared/ui";
+import Link from "next/link";
 
 
 interface ICommunityInfo {
@@ -41,6 +42,9 @@ export const CommunityInfo: React.FC<ICommunityInfo>  = ({ community }) => {
                     }
                     { !isLoading && data.relationship_type == 'subscribe' &&
                         <SubscriptionButton title={community.title} />
+                    }
+                    { !isLoading && data.relationship_type == 'owner' &&
+                        <Link href={`${community.title}/settings`}>edit</Link>
                     }
                     </Flex>
                     

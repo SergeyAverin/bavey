@@ -9,7 +9,7 @@ import { UserStatistic } from '@widgets/statistic/ui/UserStatistic';
 import { CommunityInfo, CommunityMini, ICommunity } from '@entities/community';
 import { communityApi, useGetPublicationListQuery } from '@entities/community';
 import { DateCreated } from '@widgets/dateCreated';
-import { Store, wrapper } from '../../redux/store';
+import { Store, wrapper } from '../../../redux/store';
 import { useGetCommunityPublicationListQuery } from '@entities/community/api/communityApi';
 import { CommunityStatistic } from '@widgets/statistic/ui/CommunityStatistic';
 import dynamic from 'next/dynamic';
@@ -72,4 +72,4 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
 )
 export default dynamic(() => Promise.resolve(CommunityPage), {
   ssr: false
-}); 
+});
