@@ -3,16 +3,14 @@ import React, { useState, useEffect } from "react";
 import { Margin, Button, Flex, Submit, Input } from "@shared/ui";
 import { SettingsForm } from './styled';
 import { useUpdateSettingsMutation } from "@features/settings/api/settingApi";
-import { useGetUserQuery } from "@entities/User";
+import { useGetCommunityQuery } from "@entities/community";
 import { useViewer } from "@entities/viewer";
 import { useRouter } from "next/router";
 import { imageLoader } from "@shared/lib";
 
 
-export const UserSettingsForm: React.FC = () => {
+export const CommunitySettingsForm: React.FC = ({ title }) => {
     const viewerContext = useViewer();
-    const username = viewerContext.authViewer.user.username;
-
     const [updateSetting] = useUpdateSettingsMutation();
     const [image, setImage] = useState(null);
     const router = useRouter();
@@ -20,7 +18,7 @@ export const UserSettingsForm: React.FC = () => {
         title: '',
         description: '',
     });
-    const {data, isLoading} = useGetUserQuery(username);
+    const {data, isLoading} = useGetCommunityQuery(title);
     
     async function fetchImage(url){
         const data = await fetch(url);
@@ -29,10 +27,11 @@ export const UserSettingsForm: React.FC = () => {
         const blob = new Blob([buffer], { type: "image/png"});
         return blob;
     }
+    
     useEffect(()=>{
         if (!isLoading) {
             setUserSetting({
-                username: data.username,
+                title: data.title,
                 description: data.description
             })
  
@@ -41,14 +40,12 @@ export const UserSettingsForm: React.FC = () => {
                 .then(file  => {
                     const dT = new ClipboardEvent('').clipboardData || new DataTransfer();
                     dT.items.add(file)
-                    console.log('file')
-                    console.log(file)
                     setImage(file)
                     // reader.readAsDataURL(dT.files[0]);
                 });
         }
     }, [isLoading])
-
+    
     const change = (event:React.ChangeEvent<HTMLInputElement>, key: string) => {
         setUserSetting({...userSetting, [key]: event})
     }
@@ -58,14 +55,14 @@ export const UserSettingsForm: React.FC = () => {
         if (image) {
             formData.append('avatar', image);
         }
-        formData.append('title', userSetting.username.toString());
+        formData.append('title', userSetting.title.toString());
         formData.append('description', userSetting.description.toString());
         const data = {};
         for (const [key, value] of formData.entries()) {
             data[key] = value;
         }
-        updateSetting({slug: username, body: formData});
-        router.push(`/user/${userSetting.username}`)
+        updateSetting({slug: title, body: formData});
+        router.push(`/community/${userSetting.title}`)
     };
     const handleFileChange = (event) => {
         setImage(event.target.files[0]);

@@ -11,12 +11,14 @@ import { Margin } from '@shared/ui';
 
 
 const SettingPage: NextPage = () => {
+    const router = useRouter()
+    const title = router.query.slug
     return (
         <>
             <Header />
             <Margin mt={100}>
                 <Wrapper>
-                    <CommunitySettingsForm />
+                    <CommunitySettingsForm title={title} />
                 </Wrapper>
             </Margin>
         </>
