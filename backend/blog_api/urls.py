@@ -18,4 +18,5 @@ urlpatterns = [
     path('community/<str:title>/publications', views.CommunityPublicationApiView.as_view()),
     path('community/<str:title>/statistic', views.CommunityStatisticApiView.as_view()),
     path('community/<str:title>/subscribers', views.CommunitySubscribersApiView.as_view()),
+    path('community/<str:title>/admins', views.CommunityAdmins.as_view()),
 ]

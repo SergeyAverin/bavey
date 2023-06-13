@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 
 from blog_api.serializers import CommunitySerializer, PublicationSerializer, UserSerializer
 from blog_api.services.community import CommunityService
-from blog_api.models import Community
+from blog_api.models import Community, User
 from blog_api.services.publications import PublicationService
 from core.permission import IsAdminOrReadOnly, IsAuthenticatedOrReadOnly
 
@@ -123,3 +123,18 @@ class CommunitySubscribersApiView(APIView):
         community = self.service.get_community_by_title(title)
         self.service.unsubscribe(request.user, community)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CommunityAdmins(APIView):
+    service = CommunityService()
+
+    def get(self, request, title):
+        community = self.service.get_community_by_title(title)
+        admins = community.admins.all()
+        return Response(UserSerializer(admins, many=True).data)
+    
+    def post(self, request, title):
+        community = self.service.get_community_by_title(title)
+        users = User.objects.filter(username__in=request.data['admins'])
+        community.admins.set(users)
+        return Response(UserSerializer(users, many=True).data)
