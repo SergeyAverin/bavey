@@ -111,7 +111,7 @@ export const CommunitySettingsForm: React.FC = ({ title }) => {
                         </div>
                     
                 </Margin>
-                <SelectAdmins />
+                <SelectAdmins title={title} />
             </Margin>
         </SettingsForm>
     )

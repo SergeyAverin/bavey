@@ -27,13 +27,35 @@ export const settingApi = baseApi.injectEndpoints({
           body: body,
         };
       }
-  }),
+    }),
+
+    selectAdimns: builder.mutation<any, any>({
+      query({ title, admins }) {
+        return {
+          url: `blog_api/community/${title}/admins`,
+          method: 'POST',
+          body: {
+            admins: admins
+          },
+        };
+      }
+    }),
+
+    getAdmins: builder.query<any, any>({
+        query(title) {
+          return {
+            url: `blog_api/community/${title}/admins`
+          };
+        }
+    }),
 
   })
 })
 
 export const {
     useUpdateUserSettingsMutation,
-    useUpdateCommunitySettingsMutation
+    useUpdateCommunitySettingsMutation,
+    useSelectAdimnsMutation,
+    useGetAdminsQuery
 } = settingApi;
     

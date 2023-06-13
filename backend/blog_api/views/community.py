@@ -1,3 +1,7 @@
+import json
+import logging
+import ast
+
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -12,6 +16,8 @@ from blog_api.models import Community, User
 from blog_api.services.publications import PublicationService
 from core.permission import IsAdminOrReadOnly, IsAuthenticatedOrReadOnly
 
+
+logger = logging.getLogger()
 
 class CommunityApiView(APIView):
     permission_classes = (
@@ -105,7 +111,11 @@ class CommunitySubscribersApiView(APIView):
                 'relationship_type': 'no_auth'
             }, status=status.HTTP_200_OK)
         relation_type = ''
-        if user in community.subscribers.all():
+        if user == community.owner:
+            relation_type = 'owner'
+        elif user in community.admins.all():
+            relation_type = 'admin'
+        elif user in community.subscribers.all():
             relation_type = 'subscriber'
         else:
             relation_type = 'subscribe'
@@ -135,6 +145,8 @@ class CommunityAdmins(APIView):
     
     def post(self, request, title):
         community = self.service.get_community_by_title(title)
-        users = User.objects.filter(username__in=request.data['admins'])
+        data = json.loads(request.body)
+        data = ast.literal_eval(data['admins'])
+        users = User.objects.filter(username__in=data)
         community.admins.set(users)
         return Response(UserSerializer(users, many=True).data)

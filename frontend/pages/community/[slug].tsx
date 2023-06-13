@@ -13,6 +13,7 @@ import { Store, wrapper } from '../../redux/store';
 import { useGetCommunityPublicationListQuery } from '@entities/community/api/communityApi';
 import { CommunityStatistic } from '@widgets/statistic/ui/CommunityStatistic';
 import dynamic from 'next/dynamic';
+import { useGetSubscribQuery } from '@features/communityButton';
 
 
 interface IUserPageProps {
@@ -20,7 +21,8 @@ interface IUserPageProps {
   publications: any
 }
 const CommunityPage: NextPage<IUserPageProps> = ({ community }) => {
-  console.log(community.title)
+  const { data, isLoading } = useGetSubscribQuery(community.title);
+
   return (
     <>
       <Header />
@@ -37,11 +39,14 @@ const CommunityPage: NextPage<IUserPageProps> = ({ community }) => {
             <DateCreated date={community.creation_date} />
 
             <div>
-              <Margin mb={35}>
-                <CreatePublication
-                  wallSlug={community.title}
-                  wallType='community' />
-              </Margin>
+              {!isLoading && (data.relationship_type == 'admin' || data.relationship_type == 'owner') && 
+                <Margin mb={35}>
+                  <CreatePublication
+                    wallSlug={community.title}
+                    wallType='community' />
+                </Margin>  
+              }
+            
               <PublicationList
                 publicationsFromServerRender={[]}
                 getPublication={() => useGetCommunityPublicationListQuery({title: community.title})}
