@@ -9,7 +9,7 @@ interface IupdateSettingsArgs {
 export const settingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
-    updateSettings: builder.mutation<any, IupdateSettingsArgs>({
+    updateUserSettings: builder.mutation<any, IupdateSettingsArgs>({
         query({ slug, body }) {
           return {
             url: `blog_api/user/${slug}`,
@@ -19,10 +19,21 @@ export const settingApi = baseApi.injectEndpoints({
         }
     }),
 
+    updateCommunitySettings: builder.mutation<any, IupdateSettingsArgs>({
+      query({ slug, body }) {
+        return {
+          url: `blog_api/community/${slug}`,
+          method: 'PATCH',
+          body: body,
+        };
+      }
+  }),
+
   })
 })
 
 export const {
-    useUpdateSettingsMutation
+    useUpdateUserSettingsMutation,
+    useUpdateCommunitySettingsMutation
 } = settingApi;
     

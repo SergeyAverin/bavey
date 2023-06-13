@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Margin, Button, Flex, Submit, Input } from "@shared/ui";
 import { SettingsForm } from './styled';
-import { useUpdateSettingsMutation } from "@features/settings/api/settingApi";
+import { useUpdateUserSettingsMutation } from "@features/settings/api/settingApi";
 import { useGetUserQuery } from "@entities/User";
 import { useViewer } from "@entities/viewer";
 import { useRouter } from "next/router";
@@ -13,7 +13,7 @@ export const SettingForm: React.FC = () => {
     const viewerContext = useViewer();
     const username = viewerContext.authViewer.user.username;
 
-    const [updateSetting] = useUpdateSettingsMutation();
+    const [updateSetting] = useUpdateUserSettingsMutation();
     const [image, setImage] = useState(null);
     const router = useRouter();
     const [userSetting, setUserSetting] = useState({
@@ -72,7 +72,7 @@ export const SettingForm: React.FC = () => {
         for (const [key, value] of formData.entries()) {
             data[key] = value;
         }
-        updateSetting({slug: userSetting.username, body: data});
+        updateSetting({slug: userSetting.username, body: formData});
         router.push(`/user/${userSetting.username}`)
     };
     const handleFileChange = (event) => {

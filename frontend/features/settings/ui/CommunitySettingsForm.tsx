@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 
 import { Margin, Button, Flex, Submit, Input } from "@shared/ui";
 import { SettingsForm } from './styled';
-import { useUpdateSettingsMutation } from "@features/settings/api/settingApi";
+import { useUpdateCommunitySettingsMutation } from "@features/settings/api/settingApi";
 import { useGetCommunityQuery } from "@entities/community";
+import { useGetRelationQuery } from "@entities/relation";
 import { useViewer } from "@entities/viewer";
 import { useRouter } from "next/router";
 import { imageLoader } from "@shared/lib";
+import { SelectAdmins } from "./SelectAdmins";
 
 
 export const CommunitySettingsForm: React.FC = ({ title }) => {
     const viewerContext = useViewer();
-    const [updateSetting] = useUpdateSettingsMutation();
+    const username = viewerContext.authViewer.user.username as string;
+    const [updateSetting] = useUpdateCommunitySettingsMutation();
     const [image, setImage] = useState(null);
     const router = useRouter();
     const [userSetting, setUserSetting] = useState({
@@ -19,6 +22,8 @@ export const CommunitySettingsForm: React.FC = ({ title }) => {
         description: '',
     });
     const {data, isLoading} = useGetCommunityQuery(title);
+    const relations =  useGetRelationQuery(username);
+
     
     async function fetchImage(url){
         const data = await fetch(url);
@@ -29,13 +34,17 @@ export const CommunitySettingsForm: React.FC = ({ title }) => {
     }
     
     useEffect(()=>{
+        //console.log(relations.data.friends)
+    }, [relations.isLoading])
+
+    useEffect(()=>{
         if (!isLoading) {
             setUserSetting({
                 title: data.title,
-                description: data.description
+                description: data.description   
             })
  
-            fetchImage(imageLoader({src: data.avatar}))
+            fetchImage(imageLoader({src: data.community_avatar}))
                 .then(blob  => new File([blob],'file.png'))
                 .then(file  => {
                     const dT = new ClipboardEvent('').clipboardData || new DataTransfer();
@@ -53,7 +62,7 @@ export const CommunitySettingsForm: React.FC = ({ title }) => {
         event.preventDefault();
         const formData = new FormData();
         if (image) {
-            formData.append('avatar', image);
+            formData.append('community_avatar', image);
         }
         formData.append('title', userSetting.title.toString());
         formData.append('description', userSetting.description.toString());
@@ -102,6 +111,7 @@ export const CommunitySettingsForm: React.FC = ({ title }) => {
                         </div>
                     
                 </Margin>
+                <SelectAdmins />
             </Margin>
         </SettingsForm>
     )
