@@ -8,6 +8,7 @@ import Arrow from "@public/arrow.svg";
 import FriendsIcon from '@public/friends.svg';
 import BookmarkIcon from '@public/bookmarkIcon.svg';
 import CommunityIcon from '@public/communityIcon.svg';
+import ChatIcon from '@public/Chat_fill.svg';
 
 
 export const NavigationSelect: React.FC = () => {
@@ -41,6 +42,11 @@ export const NavigationSelect: React.FC = () => {
                 <Margin mb={15}>
                     <div>
                         <LinkWithIcon isActive={false} text='Subscriptions' href='/subscriptions' icon={<CommunityIcon fill={theme.color.white}  />} />
+                    </div>
+                </Margin>
+                <Margin mb={15}>
+                    <div>
+                        <LinkWithIcon isActive={false} text='Чаты' href='/messenger/' icon={<ChatIcon />} />
                     </div>
                 </Margin>
             </>

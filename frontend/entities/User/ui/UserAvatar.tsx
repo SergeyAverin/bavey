@@ -7,6 +7,8 @@ import { IUser } from "../model/types";
 import { Button, Flex, Margin } from "@shared/ui";
 import { UserAvetarStyled } from "@entities/User/ui/styled";
 import { useGetRelationForUserQuery } from "@entities/relation";
+import Link from "next/link";
+import { CreateChatButton } from "@features/relationsButton/ui/CreateChatButton";
 
 
 interface IUserAvetarProps {
@@ -23,7 +25,7 @@ export const UserAvetar: React.FC<IUserAvetarProps> = ({ user, unfriendSlot, uns
 
     return (
         <UserAvetarStyled>
-            <Image  loader={imageLoader}  src={user.avatar} width={150} height={150} alt={user.username} />
+            <Image 	style={{objectFit: "contain"}} loader={imageLoader}  src={user.avatar} width={150} height={150} alt={user.username} />
             <Margin mt={15}>
                 <Flex alignItems="center" justifyContent="center" flexDirection="column">
                     { !isLoading && data.relationship_type == 'subscribed' &&
@@ -31,6 +33,7 @@ export const UserAvetar: React.FC<IUserAvetarProps> = ({ user, unfriendSlot, uns
                     }
                     { !isLoading && data.relationship_type == 'friend' &&
                         <div>
+                            <CreateChatButton username={user.username} />
                             {unfriendSlot}
                         </div>
                     }

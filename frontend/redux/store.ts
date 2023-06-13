@@ -11,6 +11,7 @@ import { voicesButtonApi } from '@features/SetVoicesButton';
 import { savedPublicationApi } from '@widgets/savedPublicationList'
 import { settingApi } from '@features/settings/api/settingApi';
 import { themeReducer } from '@features/theme';
+import { chatApi } from '@entities/messenger/api/chatApi';
 
 
 const combinedReducer = combineReducers({
@@ -23,6 +24,7 @@ const combinedReducer = combineReducers({
   [voicesButtonApi.reducerPath]: voicesButtonApi.reducer,
   [savedPublicationApi.reducerPath]: savedPublicationApi.reducer,
   [settingApi.reducerPath]: settingApi.reducer,
+  [chatApi.reducerPath]: chatApi.reducer,
   theme: themeReducer
 });
 
@@ -53,6 +55,7 @@ export const makeStore = () =>
         voicesButtonApi.middleware,
         savedPublicationApi.middleware,
         settingApi.middleware,
+        chatApi.middleware,
       ]),
 });
 

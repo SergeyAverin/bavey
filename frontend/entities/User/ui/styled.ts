@@ -6,6 +6,9 @@ export const UserMiniStyled = styled.div`
     color: ${(props) => props.theme.color.grean};
     font-size: 18px;
     font-weight: 600;
+    img { 
+        object-fit: contain;
+    }
 `;
 
 export const UserInfoStyled = styled.div`
@@ -30,4 +33,7 @@ export const UserAvetarStyled = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    img { 
+        object-fit: contain;
+    }
 `

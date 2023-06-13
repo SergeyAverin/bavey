@@ -6,6 +6,10 @@ export const UserAccauntStyled = styled.div`
     display: flex;
     align-items: center;
     user-select: none;
+    img {
+        object-fit: contain;
+
+    }
 `;
 
 interface IDroppedMenu {

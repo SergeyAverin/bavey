@@ -35,9 +35,7 @@ export const ProfileMenu: React.FC = () => {
   
            
   
-            <Margin mt={30}>
-              <ChangeTheme />
-            </Margin>
+        
   
             <Margin mt={30}>
               <LinkWithIcon href="/logout" icon={<LogoutIcon />} text="Выйти" isActive={false} />
@@ -48,5 +46,7 @@ export const ProfileMenu: React.FC = () => {
 }
 /*
 <DropDownSelect items={['Русский язык', 'Английский язык']} />
-
+    <Margin mt={30}>
+              <ChangeTheme />
+            </Margin>
 */

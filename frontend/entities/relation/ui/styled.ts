@@ -7,6 +7,10 @@ export const RelationStyled = styled.div`
     background: ${(props) => props.theme.color.grey};
     padding: 15px;
     border-radius: 30px;
+    img {
+        object-fit: contain;
+
+    }
 `;
 
 export const UserName = styled.div`

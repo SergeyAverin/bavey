@@ -60,6 +60,16 @@ export const friendRequestButtonApi = baseApi.injectEndpoints({
         invalidatesTags: ['FriendRequests', 'Relation', 'Statistic']
     }),
 
+    createChat: builder.mutation<any, string>({
+      query(username) {
+        return {
+          url: `messenger_api/chats_by_username/${username}`,
+          method: 'GET'
+        };
+      },
+      invalidatesTags: ['Chat',]
+  }),
+
   })
 })
 
@@ -68,5 +78,6 @@ export const {
   useRejectFriendRequestMutation,
   useCreateFriendRequestMutation,
   useUnsubscribeFromUserMutation,
+  useCreateChatMutation,
   useRemoveFriendMutation
 } = friendRequestButtonApi;
