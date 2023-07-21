@@ -18,7 +18,7 @@ export const publicationCreatorApi = baseApi.injectEndpoints({
             body: body,
           };
         },
-        invalidatesTags: ['Statistic']
+        invalidatesTags: [{ type: 'Publication', id: 'LIST' }, 'Statistic'],
     }),
 
   })

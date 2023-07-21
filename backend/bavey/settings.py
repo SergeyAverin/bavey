@@ -35,7 +35,6 @@ CORS_ALLOWED_ORIGINS = [os.environ['CORS_ALLOWED_ORIGINS']]
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',
     'messenger_api',
     'channels',
 
@@ -45,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+#           'django_celery_results',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -174,3 +174,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'

@@ -1,3 +1,7 @@
+import json
+import logging
+import ast
+
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -8,14 +12,16 @@ from rest_framework.views import APIView
 
 from blog_api.serializers import CommunitySerializer, PublicationSerializer, UserSerializer
 from blog_api.services.community import CommunityService
+from blog_api.models import Community, User
 from blog_api.services.publications import PublicationService
-from core.permission import IsAdminOrReadOnly
+from core.permission import IsAdminOrReadOnly, IsAuthenticatedOrReadOnly
 
+
+logger = logging.getLogger()
 
 class CommunityApiView(APIView):
     permission_classes = (
-        IsAuthenticated,
-        IsAdminOrReadOnly,
+        IsAuthenticatedOrReadOnly,
     )
     service = CommunityService()
 
@@ -37,6 +43,10 @@ class CreateCommunityApiView(APIView):
     ]
     service = CommunityService()
 
+    def get(self, request): 
+        community =  Community.objects.filter(subscribers=request.user)
+        return Response(CommunitySerializer(community, many=True).data)
+
     def post(self, request):
         try:
             community = self.service.create_community(
@@ -47,7 +57,7 @@ class CreateCommunityApiView(APIView):
             return Response({"error": str(e)}, status=400)
 
 
-class CommunityPublicationApiView(ListAPIView):
+class CommunityPublicationApiView(APIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = PublicationSerializer
     service = CommunityService()
@@ -56,16 +66,19 @@ class CommunityPublicationApiView(ListAPIView):
         return self.service.get_community_publications(self.kwargs["title"])
 
     def get(self, request, title):
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
+        page = self.get_queryset()
         publication_service = PublicationService()
         data = publication_service.get_serialized_publicaitons_with_voices(page)
         return Response(data)
 
     def post(self, request, title):
         wall_community = self.service.get_community_by_title(title)
+
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication credentials were not provided.'}, status=401)
+
         publication = self.service.create_publication_on_community_wall(
-            request.data.get("title"), request.user, wall_community
+            request.data.get("title"), request.user, wall_community, request.FILES
         )
         return Response(
             PublicationSerializer(publication).data, status=status.HTTP_201_CREATED
@@ -74,10 +87,14 @@ class CommunityPublicationApiView(ListAPIView):
 
 class CommunityStatisticApiView(ListAPIView):
     permission_classes = (IsAuthenticated,)
+    service = CommunityService()
 
     def get(self, request, title):
+        community = self.service.get_community_by_title(title)
+        subscribers_count = community.subscribers.count()
+        publication_count = self.service.get_community_publications(title).count()
         return Response(
-            {"subscribers": 0, "friends": 0, "subscriptions": 0},
+            {"subscribers": subscribers_count, "publications": publication_count },
             status=status.HTTP_200_OK,
         )
 
@@ -86,9 +103,26 @@ class CommunitySubscribersApiView(APIView):
     service = CommunityService()
 
     def get(self, request, title):
-        community = self.service.get_community_by_title(title)
-        subscribers = self.service.get_communit_subscribers(community)
-        return Response(UserSerializer(subscribers, many=True).data)
+        user = request.user
+        community  = self.service.get_community_by_title(title)
+
+        if not request.user.is_authenticated:
+            return Response({
+                'relationship_type': 'no_auth'
+            }, status=status.HTTP_200_OK)
+        relation_type = ''
+        if user == community.owner:
+            relation_type = 'owner'
+        elif user in community.admins.all():
+            relation_type = 'admin'
+        elif user in community.subscribers.all():
+            relation_type = 'subscriber'
+        else:
+            relation_type = 'subscribe'
+
+        return Response({
+            'relationship_type': relation_type
+        }, status=status.HTTP_200_OK)
 
     def post(self, request, title):
         community = self.service.get_community_by_title(title)
@@ -99,3 +133,20 @@ class CommunitySubscribersApiView(APIView):
         community = self.service.get_community_by_title(title)
         self.service.unsubscribe(request.user, community)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CommunityAdmins(APIView):
+    service = CommunityService()
+
+    def get(self, request, title):
+        community = self.service.get_community_by_title(title)
+        admins = community.admins.all()
+        return Response(UserSerializer(admins, many=True).data)
+    
+    def post(self, request, title):
+        community = self.service.get_community_by_title(title)
+        data = json.loads(request.body)
+        data = ast.literal_eval(data['admins'])
+        users = User.objects.filter(username__in=data)
+        community.admins.set(users)
+        return Response(UserSerializer(users, many=True).data)

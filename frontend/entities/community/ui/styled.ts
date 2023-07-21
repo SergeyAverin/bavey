@@ -2,9 +2,15 @@ import styled from "styled-components";
 
 
 export const CommunityInfoStyled = styled.div`
+    background: ${(props) => props.theme.color.grey};
+    padding-top: 50px;
+    padding-bottom: 50px;
+`;
+
+export const CommunityInfoContentStyled = styled.div`
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    align-items: flex-start;
 `;
 
 export const CommunityInfoTitleStyled = styled.h1`
@@ -28,3 +34,10 @@ export const SubscriptionTitleStyled = styled.div`
     color: ${(props) => props.theme.color.grean};
     cursor: pointer;
 `
+
+export const CommunityMiniStyled = styled.div`
+    cursor: pointer;
+    color: ${(props) => props.theme.color.grean};
+    font-size: 18px;
+    font-weight: 600;
+`;

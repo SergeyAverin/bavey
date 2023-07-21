@@ -11,6 +11,7 @@ urlpatterns = [
     path('api/v1.0/relations_api/', include("relations_api.urls")),
     path('api/v1.0/search_api/', include("search_api.urls")),
     path('api/v1.0/messenger_api/', include("messenger_api.urls")),
+    path('api/v1.0/feed_api/', include("feed_api.urls")),
 ]
 
 if settings.DEBUG:

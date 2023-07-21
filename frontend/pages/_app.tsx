@@ -1,18 +1,22 @@
 import type { AppProps } from 'next/app'
 import { Normalize } from 'styled-normalize';
 import { ThemeProvider } from 'styled-components';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 
 import GlobalStyle from '../styles/globalStyle.styled';
 import { NavigationProvider } from '../providers/NavigationProviders';
 import { wrapper } from '../redux/store';
-import theme from '../styles/theme';
+import { darkTheme, ligthTheme } from '../styles/theme';
 import { ViewerContextProvider } from '@entities/viewer';
 
 
 function MyApp({ Component, ...rest  }: AppProps) {
+  const isDarkMode = useSelector((state) => state.theme.darkMode);
+
+  const theme = isDarkMode ? darkTheme : ligthTheme;
   const { store, props } = wrapper.useWrappedStore(rest);
   const { pageProps } = props;
+
 
   return (
     <Provider store={store}>

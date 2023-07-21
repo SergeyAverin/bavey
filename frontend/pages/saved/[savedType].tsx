@@ -6,6 +6,7 @@ import { Header } from '@widgets/header';
 import { SavedPublicationNavigationSideBar } from '@widgets/navigationsSideBars';
 import { withAuth } from '@entities/viewer';
 import { SavedPublicationList } from '@widgets/savedPublicationList';
+import dynamic from 'next/dynamic';
 
 
 const SavedPublicationPage: NextPage = () => {
@@ -26,4 +27,6 @@ const SavedPublicationPage: NextPage = () => {
 };
 
 
-export default withAuth(SavedPublicationPage);
+export default dynamic(() => Promise.resolve(withAuth(SavedPublicationPage)), {
+  ssr: false
+});

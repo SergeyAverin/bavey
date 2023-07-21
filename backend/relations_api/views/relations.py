@@ -74,7 +74,7 @@ class RelationUnsubscribe(APIView):
         )
         if len(friend_request) > 0:
             friend_request.delete()
-        
+
         self.relations_service.remove_subscribe(user, friend)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -12,7 +12,7 @@ logger = logging.getLogger()
 
 def create_messege(room_name, message, token):
     service = ChatService()
-    service.add_user_in_chat(room_name, token)
+    # service.add_user_in_chat(room_name, token)
     service.create_messages(room_name, message, token)
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -42,13 +42,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await sync_to_async(create_messege)(self.room_name, message, token)
 
-
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'message': message,
+                'user': {
+                    'username': text_data_json['user']['username']
+                }
             }
         )
 
@@ -58,5 +60,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': message,
+            'user': {
+                'username': event['user']['username']
+            }
         }))

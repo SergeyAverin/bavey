@@ -6,3 +6,4 @@ class RelationStatus(Enum):
     FRIEND = "friend"
     SUBSCRIBER = "subscriber"
     SUBSCRIBED = "subscribed"
+    PROFILE = 'profile'

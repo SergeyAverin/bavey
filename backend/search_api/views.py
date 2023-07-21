@@ -20,5 +20,5 @@ def quert(request):
     if search_query and fillter == 'publication':
         query = search_publication(search_query)
         return Response(PublicationSerializer(query, many=True).data, status=200)
-    
+
     return Response([], status=200)

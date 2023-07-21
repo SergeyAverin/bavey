@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -13,6 +15,8 @@ from ..serializers import PublicationSerializer
 from core.permission import IsProfileOrReadOnly, IsAuthenticatedOrReadOnly
 
 
+logger = logging.getLogger()
+
 class UserApiView(APIView):
     permission_classes = (
         IsProfileOrReadOnly,
@@ -25,13 +29,40 @@ class UserApiView(APIView):
 
     def patch(self, request, username):
         try:
+            logger.error(request.data)
             new_data = self.service.update_user(username, request.data)
             return Response(new_data.data)
         except ValidationError as e:
+            logger.error( e.detail)
             return Response({"error": e.detail}, status=400)
 
 
-class UserPublicationApiView(ListAPIView):
+#class UserPublicationApiView(ListAPIView):
+#    permission_classes = (IsAuthenticatedOrReadOnly, )
+#    serializer_class = PublicationSerializer
+#    service = UserBlogService()
+#
+#    def get_queryset(self):
+#        return self.service.get_publication_from_user_wall(self.kwargs["username"])
+#
+#    def get(self, request, username):
+#        queryset = self.filter_queryset(self.get_queryset())
+#        page = self.paginate_queryset(queryset)
+#        publication_service = PublicationService()
+#        data = publication_service.get_serialized_publicaitons_with_voices(page)
+#        return Response(data)
+#
+#    def post(self, request, username):
+#        wall_user = self.service.get_user_by_username(username)
+#        print(request.FILES)
+#        
+#        publication = self.service.create_publication_on_user_wall(
+#            request.data.get("title"), request.user, wall_user, request.FILES
+#        )
+#        return Response(
+#            PublicationSerializer(publication).data, status=status.HTTP_201_CREATED
+#        )
+class UserPublicationApiView(APIView):
     permission_classes = (IsAuthenticatedOrReadOnly, )
     serializer_class = PublicationSerializer
     service = UserBlogService()
@@ -40,16 +71,17 @@ class UserPublicationApiView(ListAPIView):
         return self.service.get_publication_from_user_wall(self.kwargs["username"])
 
     def get(self, request, username):
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
+        page = self.get_queryset()
         publication_service = PublicationService()
         data = publication_service.get_serialized_publicaitons_with_voices(page)
         return Response(data)
 
     def post(self, request, username):
         wall_user = self.service.get_user_by_username(username)
-        print(request.FILES)
-        
+
+        if not request.user.is_authenticated:
+            return Response({'error': 'Authentication credentials were not provided.'}, status=401)
+
         publication = self.service.create_publication_on_user_wall(
             request.data.get("title"), request.user, wall_user, request.FILES
         )
@@ -57,9 +89,7 @@ class UserPublicationApiView(ListAPIView):
             PublicationSerializer(publication).data, status=status.HTTP_201_CREATED
         )
 
-
 class UserStatisticApiView(ListAPIView):
-    permission_classes = (IsAuthenticated,)
     service = UserBlogService()
 
     def get(self, request, username):

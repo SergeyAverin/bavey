@@ -30,7 +30,6 @@ export const Relation: React.FC<IRelation> = ({ username, removeFriendButtonSlot
                     <Link href={`/user/${username}`}>{username}</Link>
                 </UserName>
                 <UserSendMessage>
-                    <Link href={`/user/${username}/sendmessage`}>Send message</Link>
                 </UserSendMessage>
               <Margin mt={10}>
                     { removeFriendButtonSlot }

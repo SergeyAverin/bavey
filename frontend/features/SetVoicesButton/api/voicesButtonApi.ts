@@ -19,7 +19,7 @@ export const voicesButtonApi = baseApi.injectEndpoints({
             }
           };
         },
-        invalidatesTags: ['Voice']
+        invalidatesTags: (result, error, { publicationSlug }) => [{ type: 'Publication', id: publicationSlug }, 'Voice']
     }),
 
   })

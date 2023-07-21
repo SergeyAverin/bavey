@@ -2,11 +2,11 @@ export interface IFriendRequest {
     pk: number,
     sender: {
         username: string,
-        userAvatar: string
+        avatar: string
     },
     recipient: {
         username: string,
-        userAvatar: string
+        avatar: string
     },
     message: string
 };

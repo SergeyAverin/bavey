@@ -12,7 +12,7 @@ import { RelationsNavigationSideBar } from '@widgets/navigationsSideBars';
 
 const FriendRequestsPage: NextPage = () => {
   const router = useRouter();
-
+  const fillter = router.asPath.split('#')[1];
   const { data, isLoading } = useFriendRequestsQuery();
   let inside = [];
   let outside = [];
@@ -28,25 +28,35 @@ const FriendRequestsPage: NextPage = () => {
         <Wrapper>
           <TwoColumnGrid firstColumnSize='70%' secondColumnSize='30%'>
             <div>
-            <h1 name='outside'>Outside</h1>
-            {outside.map((friendRequest) => (
-              <Margin mb={30} key={friendRequest.recipient.username}>
-                  <FriendRequestOutside
-                    unsubscribeButtonSlot={<UnsubscribeFromUser username={friendRequest.recipient.username} />}
-                    friendRequest={friendRequest}
-                  />
-              </Margin>
-            ))}
-            <h1 name='inside'>Inside</h1>
-            {inside.map((friendRequest) => (
-              <Margin mb={30} key={friendRequest.recipient.username}>
-                  <FriendRequestInside
-                    friendRequest={friendRequest}
-                    acceptButtonSlot={<AcceptRequest frindRequestPK={friendRequest.pk} />}
-                    rejectButtonSlot={<RejectRequest frindRequestPK={friendRequest.pk} />}
-                  />
-              </Margin>
-            ))}
+            {fillter == 'outside' && 
+              <div>
+                <h1 name='outside'>Исходящие запросы</h1>
+                {outside.map((friendRequest) => (
+                  <Margin mb={30} key={friendRequest.recipient.username}>
+                      <FriendRequestOutside
+                        unsubscribeButtonSlot={<UnsubscribeFromUser username={friendRequest.recipient.username} />}
+                        friendRequest={friendRequest}
+                      />
+                  </Margin>
+                ))}
+                { outside.length == 0 && <p>Нет запросов</p> }
+              </div>
+            }
+            {fillter == 'inside' && 
+              <div>
+                <h1 name='inside'>Входящие запросы</h1>
+                {inside.map((friendRequest) => (
+                  <Margin mb={30} key={friendRequest.recipient.username}>
+                      <FriendRequestInside
+                        friendRequest={friendRequest}
+                        acceptButtonSlot={<AcceptRequest frindRequestPK={friendRequest.pk} />}
+                        rejectButtonSlot={<RejectRequest frindRequestPK={friendRequest.pk} />}
+                      />
+                  </Margin>
+                  ))}
+                  { inside.length == 0 && <p>Нет запросов</p> }
+              </div>
+            }
             </div>
             <RelationsNavigationSideBar />
           </TwoColumnGrid>

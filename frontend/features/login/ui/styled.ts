@@ -39,3 +39,8 @@ export const SubmitStyled = styled.input.attrs({type: 'submit'})`
     font-size: 18px;
     line-height: 27px;
 `
+
+export const ValidateFail = styled.div`
+   color: ${props => props.theme.color.red};
+   font-size: 18px;
+`

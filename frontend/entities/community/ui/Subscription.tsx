@@ -4,31 +4,28 @@ import Link from "next/link";
 
 import { ICommunity } from "../model/types";
 import { SubscriptionStyled, SubscriptionTitleStyled } from "./styled";
+import { imageLoader } from "@shared/lib";
 import { Flex, Button } from "@shared/ui";
 
 
-import Avatar from "@public/Avatar.png";
-
-
 interface ISubscriptionProps {
-    community: ICommunity
+    community: ICommunity,
+    communitySubscribeButton: React.ReactNode
 }
 
-export const Subscription: React.FC<ISubscriptionProps> = ({ community }) => {
+export const Subscription: React.FC<ISubscriptionProps> = ({ community, communitySubscribeButton }) => {
     return (
         <SubscriptionStyled>
             <Flex justifyContent="flex-start" alignItems="center">
-                <Image src={Avatar} alt={community.title} width={80} height={80} />
-                <Link href='#'>
+                <Image src={community.community_avatar} loader={imageLoader} alt={community.title} width={80} height={80} />
+                <Link href={`/community/${community.title}`}>
                     <SubscriptionTitleStyled>
                         { community.title }
                     </SubscriptionTitleStyled>
                 </Link>
             </Flex>
 
-            <Button>
-                unsubscribe
-            </Button>
+            { communitySubscribeButton }
         </SubscriptionStyled>
     )
 }

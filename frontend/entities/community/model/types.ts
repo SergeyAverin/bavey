@@ -1,5 +1,6 @@
 export interface ICommunity {
     title: string,
     description: string,
-    creation_date: string
+    creation_date: string,
+    community_avatar: string
 };

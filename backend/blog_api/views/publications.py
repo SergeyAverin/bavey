@@ -20,6 +20,11 @@ class PublicationsApiView(APIView):
 
         return Response(data, status=status.HTTP_200_OK)
 
+    def delete(self, request, slug):
+        publication = self.service.get_publication_by_slug(slug)
+        publication.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class SavedPublication(APIView):
     service = PublicationService()

@@ -4,34 +4,33 @@ import { Wrapper, TwoColumnGrid, Margin } from '@shared/ui';
 import { Header } from '@widgets/header';
 import { Subscription } from '@entities/community';
 import { withAuth } from '@entities/viewer';
+import { UnsubscriptionButton } from '@features/communityButton';
+import { useGetCommunityListQuery } from '@entities/community/api/communityApi';
+import { CreateCommunity } from '@features/createCommunity';
 
 
-const community = {
-    title: 'string',
-    description: 'string',
-    creation_date: 'string'
-}
 const SubsctiptionPage: NextPage = () => {
+  const { data, isLoading } = useGetCommunityListQuery();
+  let communites = [];
+  if (data) {
+    communites = data;
+  }
   return (
     <>
       <Header />
-      <Margin mt={100}>
+      <Margin mt={100}> 
         <Wrapper>
-            <div>
-              <Subscription community={community} />
-              <Margin mt={30}>
-                 <Subscription community={community} />
+          <CreateCommunity />
+          {communites.map((community) => (
+              <Margin mb={30} key={community.title}>
+                  <Subscription
+                    community={community}
+                    communitySubscribeButton={<UnsubscriptionButton title={community.title} />} />
               </Margin>
-              <Margin mt={30}>
-                 <Subscription community={community} />
-              </Margin>
-              <Margin mt={30}>
-                 <Subscription community={community} />
-              </Margin>
-              <Margin mt={30}>
-                 <Subscription community={community} />
-              </Margin>
-            </div>
+            ))}
+            {communites.length == 0 &&
+              <h2>Нет сообществ</h2>
+            }
         </Wrapper>
       </Margin>
     </>

@@ -1,7 +1,7 @@
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next'
 
 import { Wrapper, ThreeColumnGrid, Margin } from '@shared/ui';
-import { userApi, IUser } from '@entities/User';
+import { userApi, IUser, useGetPublicationListQuery } from '@entities/user';
 import { relationApi } from '@entities/relation';
 import { CreatePublication } from '@features/createPublication';
 import { Header } from '@widgets/header';
@@ -9,8 +9,10 @@ import { UserHeader } from '@widgets/userHeader';
 import { PublicationList } from '@widgets/publicationsList';
 import { UserFriends } from '@widgets/userFriends';
 import { UserStatistic } from '@widgets/statistic/ui/UserStatistic';
+import { useRouter } from 'next/router';
 
 import { Store, wrapper } from '../../redux/store';
+import dynamic from 'next/dynamic';
 
 
 interface IUserPageProps {
@@ -39,7 +41,10 @@ const UserPage: NextPage<IUserPageProps> = ({ user, publications, friends }) => 
                   wallSlug={user.username}
                   wallType='user' />
               </Margin>
-              <PublicationList publicationsFromServerRender={publications} />
+              <PublicationList
+                publicationsFromServerRender={publications}
+                getPublication={() => useGetPublicationListQuery({username: user.username})}
+              />
             </div>  
             <UserStatistic username={user.username} />
           </ThreeColumnGrid>
@@ -49,9 +54,10 @@ const UserPage: NextPage<IUserPageProps> = ({ user, publications, friends }) => 
   )
 };
 
-export default UserPage;
 
+// export default UserPage;
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
+  
   (store: Store) => async (context: GetServerSidePropsContext) => {
     const username = context.query.username as string;
     const userRequest = await store.dispatch(userApi.endpoints.getUser.initiate(username))
@@ -59,15 +65,19 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     const publicationsRequest = await store.dispatch(userApi.endpoints.getPublicationList.initiate({
       username: username,
       offset: 0,
-      limit: 5
+      limit: 16
     }))
     await Promise.all(store.dispatch(userApi.util.getRunningQueriesThunk()))
     const user = userRequest.data;
     const publications = publicationsRequest.data;
     const friends = userFriendsRequest.data;
     
-    console.log('=-=-=-=-=-=-=-=-=-=')
-    console.log(userFriendsRequest)
+    if (!user) {
+      return {
+        props: {},
+        notFound: true,
+      };
+    }
     
     return {
       props: {
@@ -78,3 +88,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     }
   },
 )
+
+export default dynamic(() => Promise.resolve(UserPage), {
+  ssr: false
+});
