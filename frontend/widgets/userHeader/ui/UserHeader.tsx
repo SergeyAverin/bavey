@@ -1,10 +1,10 @@
 import React from "react";
 
 import { Logo, Wrapper, Flex, Margin } from "@shared/ui";
-import { UserAvetar, UserInfo } from "@entities/User";
+import { UserAvetar, UserInfo } from "@entities/user";
 import { UserHeaderStyled } from "@widgets/userHeader/ui/styled";
 import { RemoveFriend, UnsubscribeFromUser, CreateFriendRequest } from '@features/relationsButton';
-import { IUser } from '@entities/User'
+import { IUser } from '@entities/user'
 
 
 interface IUserHeaderProps {

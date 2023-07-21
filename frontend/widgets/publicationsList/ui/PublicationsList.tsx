@@ -4,7 +4,7 @@ import { ThemeContext } from 'styled-components';
 
 import { Margin } from '@shared/ui';
 import { Publication } from '@entities/publication';
-import { useGetPublicationListQuery, UserMini } from '@entities/User';
+import { useGetPublicationListQuery, UserMini } from '@entities/user';
 import { IPublication } from '@entities/publication';
 import { PublicationVoices } from '@features/SetVoicesButton/ui/PublicationVoices';
 import { CommunityMini } from '@entities/community';
@@ -25,7 +25,7 @@ export const PublicationList: React.FC<IPublicationList> = ({ publicationsFromSe
 
     return (
         <>
-            { publications.length == 0 && <div>No publications</div> }
+            { publications.length == 0 && <div>Нет публикаций</div> }
             { publications.map((publication) => (
                 <Margin mb={30}  key={publication.publication.slug}>
                     <Publication

@@ -13,10 +13,21 @@ export const messagesListApi = baseApi.injectEndpoints({
       providesTags: ['Chat'],
     }),
 
+    getMessengesUpdata: builder.mutation<any, string>({
+      query(slug) {
+        return {
+          url: `messenger_api/chats/${slug}`,
+          method: 'GET'
+        };
+      },
+      invalidatesTags: ['Chat']
+    }),
+
   })
 })
 
 export const {
     useGetMessengesQuery,
+    useGetMessengesUpdataMutation
 } = messagesListApi;
     

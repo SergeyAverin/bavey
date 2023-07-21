@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Margin, Button, Flex, Submit, Input } from "@shared/ui";
 import { SettingsForm } from './styled';
 import { useUpdateUserSettingsMutation } from "@features/settings/api/settingApi";
-import { useGetUserQuery } from "@entities/User";
+import { useGetUserQuery } from "@entities/user";
 import { useViewer } from "@entities/viewer";
 import { useRouter } from "next/router";
 import { imageLoader } from "@shared/lib";

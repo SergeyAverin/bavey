@@ -1,5 +1,9 @@
 {
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true,
-    "typescript.preferences.importModuleSpecifier": "non-relative",
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none"
 }

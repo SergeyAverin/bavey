@@ -1,5 +1,5 @@
 import { baseApi } from '@shared/api'
-import { IUser } from '@entities/User/model/types'
+import { IUser } from '@entities/user/model/types'
 import { IPublication } from '@entities/publication'
 
 

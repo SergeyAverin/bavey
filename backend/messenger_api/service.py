@@ -14,7 +14,7 @@ class ChatService:
     def get_chat_messages(self, slug):
         chat = self.get_or_create_chat(slug)
         messages = ChatMessage.objects.filter(chat=chat)
-        return messages.order_by('-created_at')
+        return messages.order_by('created_at')
 
     def get_users_chats(self, user):
         return user.users_in_chat.all()
@@ -29,7 +29,8 @@ class ChatService:
         chat.users_in_chat.add(user)
 
     def create_messages(self, slug, message, token):
-        chat = self.get_or_create_chat(slug)
+        #chat = self.get_or_create_chat(slug)
+        chat = Chat.objects.get(slug=slug)
         user = self.get_user_from_token(token)
         ChatMessage.objects.create(chat=chat, message=message, user=user)
 

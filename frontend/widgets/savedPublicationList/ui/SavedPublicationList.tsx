@@ -4,7 +4,7 @@ import { ThemeContext } from 'styled-components';
 
 import { Margin } from '@shared/ui';
 import { Publication } from '@entities/publication';
-import { useGetPublicationListQuery, UserMini } from '@entities/User';
+import { useGetPublicationListQuery, UserMini } from '@entities/user';
 import { IPublication } from '@entities/publication';
 import { SetVoiceButton } from '@features/SetVoicesButton';
 import { useGetSavedPublicationListQuery } from '../api/savedPublicationListApi';
@@ -49,6 +49,7 @@ export const SavedPublicationList: React.FC<ISavedPublicationListProps> = ({save
                     />
                 </Margin>
             ))}
+            {publications.length == 0 && <h2>Нет публикаций</h2>}
         </div>
     )
 }

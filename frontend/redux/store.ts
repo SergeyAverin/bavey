@@ -1,7 +1,7 @@
 import { configureStore, AnyAction, combineReducers, Action, ThunkAction } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 
-import { userApi } from '@entities/User';
+import { userApi } from '@entities/user';
 import { viewerApi } from '@entities/viewer';
 import { friendRequestButtonApi } from '@features/relationsButton';
 import { relationApi } from '@entities/relation';

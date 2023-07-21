@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { IUser } from "../model/types";
 import  { Margin } from "@shared/ui";
-import { UserInfoStyled, UserInfoTagStyled, UserInfoTitleStyled } from "@entities/User/ui/styled";
+import { UserInfoStyled, UserInfoTagStyled, UserInfoTitleStyled } from "@entities/user/ui/styled";
 
 
 interface IUserInfoProps {

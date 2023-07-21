@@ -10,7 +10,7 @@ import BaveyLogo from "@public/baveyLogo.svg"
 
 
 export const RegistrationForm: React.FC = () => {
-  const [registration] = useRegistrationMutation();
+  const [registration, error] = useRegistrationMutation();
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -29,7 +29,9 @@ export const RegistrationForm: React.FC = () => {
         password: password1,
         username
     })
-    router.push('/login')
+    if (error.status != 'rejected') {
+      router.push('/login')
+    }
   };
 
   return (
@@ -63,8 +65,9 @@ export const RegistrationForm: React.FC = () => {
           </div>
         </Flex>
         { password1 != password2
-          && <ValidateFail>err</ValidateFail>
+          && <ValidateFail>Пароли не совпадают</ValidateFail>
         }
+          { error.status == 'rejected' && <ValidateFail>Никнейм занят</ValidateFail> }
         
         <SubmitStyled value='Зарегистрировать'/>
       </AuthFormStyled>

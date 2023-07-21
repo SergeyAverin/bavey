@@ -15,8 +15,8 @@ export const CreateCommunity: React.FC = () => {
 
     return (
         <CreateCommunityStyled>
-            <Input attrName="title" inputValues={title} setInputValues={setTitle}  labelText="title"/>
-            <Button onClick={onClickHeandler}>Create</Button>
+            <Input attrName="title" inputValues={title} setInputValues={setTitle}  labelText="Название"/>
+            <Button onClick={onClickHeandler}>Создать сообщество</Button>
         </CreateCommunityStyled>
     )
 }

@@ -30,7 +30,7 @@ export const ProfileMenu: React.FC = () => {
               <LinkWithIcon href={`/user/${username}`} icon={<ProfileIcon />} text={username} isActive={false} />
             </Margin>
             <Margin mt={15}>
-              <LinkWithIcon href="/settings" icon={<SettingIcon />} text="Settings" isActive={false} />
+              <LinkWithIcon href="/settings" icon={<SettingIcon />} text="Редактировать" isActive={false} />
             </Margin>
   
            

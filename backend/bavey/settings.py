@@ -35,7 +35,6 @@ CORS_ALLOWED_ORIGINS = [os.environ['CORS_ALLOWED_ORIGINS']]
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',
     'messenger_api',
     'channels',
 

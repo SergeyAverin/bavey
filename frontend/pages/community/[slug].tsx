@@ -68,6 +68,14 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     const communityRequest = await store.dispatch(communityApi.endpoints.getCommunity.initiate(title))
     await Promise.all(store.dispatch(communityApi.util.getRunningQueriesThunk()))
     const community = communityRequest.data;
+
+    if (!community) {
+      return {
+        props: {},
+        notFound: true,
+      };
+    }
+
     return {
       props: {
         community: community

@@ -16,6 +16,9 @@ const SavedPublicationPage: NextPage = () => {
     search = router.query['search'] as string
   }
   const { data, isLoading } = useSearchQuery({search, fillter: router.query['fillter']});
+  if (router.query['fillter']) { 
+    console.log(router.query['fillter'])
+  }
   return (
     <>
       <Header />
@@ -25,10 +28,16 @@ const SavedPublicationPage: NextPage = () => {
             <div>
                 {!isLoading && router.query['fillter']  && data.map((user) => (
                   <Margin mt={30} >
-                    <a href={`/user/${user.username}`}>{user.username}</a>
+                    <a href={`/${router.query['fillter'] == 'user'? 'user':'community'}/${router.query['fillter'] == 'user'? user.username:user.title}`}>
+                      {router.query['fillter'] == 'user'? user.username:user.title}
+                    </a>
                   </Margin>
                 ))}   
+                {!isLoading && router.query['fillter']  && data.length == 0 &&
+                  <h2>Ничего не найдено</h2>
+                }
             </div>
+            <SearchFillterSideBar search={search}/>
           </TwoColumnGrid>
         </Wrapper>
       </Margin>
@@ -40,5 +49,4 @@ const SavedPublicationPage: NextPage = () => {
 export default dynamic(() => Promise.resolve(withAuth(SavedPublicationPage)), {
   ssr: false
 });
-//  <SearchFillterSideBar search={search}/>
 // 

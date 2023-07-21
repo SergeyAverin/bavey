@@ -3,7 +3,7 @@ import { ThemeContext } from 'styled-components';
 
 import { Flex, Margin } from "@shared/ui";
 import { IPublication } from "@entities/publication";
-import { IUser } from "@entities/User"; 
+import { IUser } from "@entities/user"; 
 import { SetVoiceButton } from "@features/SetVoicesButton/ui/SetVoiceButton";
 import { useViewer } from "@entities/viewer";
 

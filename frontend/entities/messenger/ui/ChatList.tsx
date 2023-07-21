@@ -25,6 +25,9 @@ export const ChatList = () => {
             {!isLoading &&
                 data.map((item) => <Chat slug={item.slug} username={getUsername(item.users_in_chat)}/>)
             }
+            {!isLoading && data.length == 0&& 
+                <h2>Нет чатов</h2>
+            }
         </div>
     )
 }

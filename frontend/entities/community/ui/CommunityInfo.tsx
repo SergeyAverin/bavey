@@ -44,7 +44,7 @@ export const CommunityInfo: React.FC<ICommunityInfo>  = ({ community }) => {
                         <SubscriptionButton title={community.title} />
                     }
                     { !isLoading && data.relationship_type == 'owner' &&
-                        <Link href={`${community.title}/settings`}>edit</Link>
+                        <Link href={`${community.title}/settings`}>Редактировать</Link>
                     }
                     </Flex>
                     

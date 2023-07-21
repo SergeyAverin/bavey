@@ -11,10 +11,10 @@ export const Chat = ({username, slug}) => {
     const isActive = activSlug == slug;
     console.log(router.pathname)
     return (
-        <Link href={`/messenger/${slug}`}>
+        <a href={`/messenger/${slug}`}>
             <ChatStyled isActive={isActive}>
                 {username}
             </ChatStyled>
-        </Link>
+        </a>
     )
 }

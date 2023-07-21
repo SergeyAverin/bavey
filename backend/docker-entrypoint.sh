@@ -12,6 +12,6 @@ fi
 
 # Start server
 echo "Starting server" 
-celery -A bavey.celery:app worker --loglevel=info --logfile=logs/celery.log &
+# celery -A bavey.celery:app worker --loglevel=info --logfile=logs/celery.log &
 python manage.py runserver 0.0.0.0:8080
-#daphne -b 0.0.0.0 -p 8080 bavey.asgi:application
+#  daphne -b 0.0.0.0 -p 8080 bavey.asgi:application

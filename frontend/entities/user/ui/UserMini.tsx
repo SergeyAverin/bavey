@@ -5,7 +5,7 @@ import Link from "next/link";
 import { imageLoader } from "@shared/lib";
 import { IUser } from "../model/types";
 import  { Flex, Margin } from "@shared/ui";
-import { UserMiniStyled } from "@entities/User/ui/styled";
+import { UserMiniStyled } from "@entities/user/ui/styled";
 
 
 interface IUserMiniProps {

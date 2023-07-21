@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Margin, Button, Flex, Submit, Input } from "@shared/ui";
 import { SettingsForm } from './styled';
 import { useUpdateUserSettingsMutation } from "@features/settings/api/settingApi";
-import { useGetUserQuery } from "@entities/User";
+import { useGetUserQuery } from "@entities/user";
 import { useViewer } from "@entities/viewer";
 import { useRouter } from "next/router";
 import { imageLoader } from "@shared/lib";
@@ -88,6 +88,7 @@ export const SettingForm: React.FC = () => {
                 <Margin mt={15}>
                         <div>
                             <Margin mb={15}>
+                                Аватар <br />
                                 <input
                                     accept="image/*" 
                                     type="file"
@@ -104,7 +105,7 @@ export const SettingForm: React.FC = () => {
                                 <Input
                                     attrName="first_name"
                                     inputValues={userSetting.first_name}
-                                    labelText="first_name"
+                                    labelText="Имя:"
                                     setInputValues={(event) => {change(event, 'first_name')}}
                                 />
                             </Margin>
@@ -112,7 +113,7 @@ export const SettingForm: React.FC = () => {
                                 <Input
                                     attrName="last_name"
                                     inputValues={userSetting.last_name}
-                                    labelText="last_name"
+                                    labelText="Фамилия:"
                                     setInputValues={(event) => {change(event, 'last_name')}}
                                 />
                             </Margin>
@@ -121,7 +122,7 @@ export const SettingForm: React.FC = () => {
                             <Input
                                 attrName="description"
                                 inputValues={userSetting.description}
-                                labelText="description"
+                                labelText="Описание:"
                                 setInputValues={(event) => {change(event, 'description')}}
                             />
                             </Margin>

@@ -28,6 +28,9 @@ const SubsctiptionPage: NextPage = () => {
                     communitySubscribeButton={<UnsubscriptionButton title={community.title} />} />
               </Margin>
             ))}
+            {communites.length == 0 &&
+              <h2>Нет сообществ</h2>
+            }
         </Wrapper>
       </Margin>
     </>

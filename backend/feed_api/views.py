@@ -7,6 +7,7 @@ from blog_api.serializers import PublicationSerializer
 from blog_api.services.publications import PublicationService
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import LabelEncoder
+from django.core.paginator import Paginator
 
 import pandas as pd
 import logging
@@ -83,5 +84,8 @@ class TimeFeed(ListAPIView):
     def get(self, request): 
         service = PublicationService()
         publications = self.get_queryset()
-        data = service.get_serialized_publicaitons_with_voices(publications)
+        paginator = Paginator(publications, 5) # Show 2 objects per page
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        data = service.get_serialized_publicaitons_with_voices(page_obj)
         return Response(data, status=200)

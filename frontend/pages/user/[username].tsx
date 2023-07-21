@@ -1,7 +1,7 @@
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next'
 
 import { Wrapper, ThreeColumnGrid, Margin } from '@shared/ui';
-import { userApi, IUser, useGetPublicationListQuery } from '@entities/User';
+import { userApi, IUser, useGetPublicationListQuery } from '@entities/user';
 import { relationApi } from '@entities/relation';
 import { CreatePublication } from '@features/createPublication';
 import { Header } from '@widgets/header';
@@ -9,6 +9,7 @@ import { UserHeader } from '@widgets/userHeader';
 import { PublicationList } from '@widgets/publicationsList';
 import { UserFriends } from '@widgets/userFriends';
 import { UserStatistic } from '@widgets/statistic/ui/UserStatistic';
+import { useRouter } from 'next/router';
 
 import { Store, wrapper } from '../../redux/store';
 import dynamic from 'next/dynamic';
@@ -70,6 +71,13 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     const user = userRequest.data;
     const publications = publicationsRequest.data;
     const friends = userFriendsRequest.data;
+    
+    if (!user) {
+      return {
+        props: {},
+        notFound: true,
+      };
+    }
     
     return {
       props: {

@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import { UserFriendsStyled, UserFriendsTitleStyled } from "./styled";
-import { UserMini } from "@entities/User";
+import { UserMini } from "@entities/user";
 import { Margin } from "@shared/ui";
 
 

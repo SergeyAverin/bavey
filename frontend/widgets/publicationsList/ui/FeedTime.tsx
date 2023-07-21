@@ -4,7 +4,7 @@ import { ThemeContext } from 'styled-components';
 
 import { Margin } from '@shared/ui';
 import { Publication } from '@entities/publication';
-import { UserMini } from '@entities/User';
+import { UserMini } from '@entities/user';
 import { IPublication } from '@entities/publication';
 import { SetVoiceButton } from '@features/SetVoicesButton';
 import { useGetPublicationFeedQuery } from '../api/feedApi';

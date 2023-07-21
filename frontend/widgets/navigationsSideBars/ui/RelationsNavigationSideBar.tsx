@@ -11,7 +11,7 @@ import OutsideIcon from '@public/outside.svg';
 export const RelationsNavigationSideBar: React.FC  = () => {
     return (
         <NavigationSideBarStyled>
-            <LinkWithIcon href="/friends" text='Friends' icon={<FriendsIcon />} isActive={false} />
+            <LinkWithIcon href="/friends" text='Друзья' icon={<FriendsIcon />} isActive={false} />
             <Margin mt={15}>
                 <LinkWithIcon href="/friendsRequests#inside" text='Входящие запросы' icon={<InsideIcon />} isActive={false} />
             </Margin>

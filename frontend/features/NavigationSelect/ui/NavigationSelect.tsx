@@ -23,7 +23,7 @@ export const NavigationSelect: React.FC = () => {
         >
 
         <Flex alignItems='center' justifyContent='space-between' >
-            <NavigationBlockTitleStyled>page</NavigationBlockTitleStyled>
+            <NavigationBlockTitleStyled>Навигация</NavigationBlockTitleStyled>
             <Arrow  transform={isOpen ? "rotate(0 0 0)" : "rotate(-90 0 0)"}  />
         </Flex>
         
@@ -41,7 +41,7 @@ export const NavigationSelect: React.FC = () => {
 
                 <Margin mb={15}>
                     <div>
-                        <LinkWithIcon isActive={false} text='Subscriptions' href='/subscriptions' icon={<CommunityIcon fill={theme.color.white}  />} />
+                        <LinkWithIcon isActive={false} text='Сообщества' href='/subscriptions' icon={<CommunityIcon fill={theme.color.white}  />} />
                     </div>
                 </Margin>
                 <Margin mb={15}>

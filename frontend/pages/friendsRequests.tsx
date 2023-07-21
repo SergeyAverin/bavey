@@ -30,7 +30,7 @@ const FriendRequestsPage: NextPage = () => {
             <div>
             {fillter == 'outside' && 
               <div>
-                <h1 name='outside'>Outside</h1>
+                <h1 name='outside'>Исходящие запросы</h1>
                 {outside.map((friendRequest) => (
                   <Margin mb={30} key={friendRequest.recipient.username}>
                       <FriendRequestOutside
@@ -39,12 +39,12 @@ const FriendRequestsPage: NextPage = () => {
                       />
                   </Margin>
                 ))}
-                { outside.length == 0 && <p>No outside</p> }
+                { outside.length == 0 && <p>Нет запросов</p> }
               </div>
             }
             {fillter == 'inside' && 
               <div>
-                <h1 name='inside'>Inside</h1>
+                <h1 name='inside'>Входящие запросы</h1>
                 {inside.map((friendRequest) => (
                   <Margin mb={30} key={friendRequest.recipient.username}>
                       <FriendRequestInside
@@ -54,7 +54,7 @@ const FriendRequestsPage: NextPage = () => {
                       />
                   </Margin>
                   ))}
-                  { inside.length == 0 && <p>No inside</p> }
+                  { inside.length == 0 && <p>Нет запросов</p> }
               </div>
             }
             </div>

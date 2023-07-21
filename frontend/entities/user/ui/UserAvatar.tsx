@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { imageLoader } from "@shared/lib";
 import { IUser } from "../model/types";
 import { Button, Flex, Margin } from "@shared/ui";
-import { UserAvetarStyled } from "@entities/User/ui/styled";
+import { UserAvetarStyled } from "@entities/user/ui/styled";
 import { useGetRelationForUserQuery } from "@entities/relation";
 import Link from "next/link";
 import { CreateChatButton } from "@features/relationsButton/ui/CreateChatButton";
