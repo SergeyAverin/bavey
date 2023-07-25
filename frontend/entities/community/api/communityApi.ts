@@ -1,58 +1,54 @@
-import { IPublication } from '@entities/publication';
-import { baseApi } from '../../../shared/api';
+import { baseApi, TAGS } from '@shared/api'
+import { IPublication } from '@entities/publication'
 
-import { ICommunity } from 'types/user';
-
+import { ICommunity, ICommunityStatistic } from '../model/types'
 
 export const communityApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-
-    getCommunity: builder.query<[ICommunity], string>({
+    getCommunity: builder.query<ICommunity, string>({
       query: (title) => ({
         url: `blog_api/community/${title}`
       }),
-      providesTags: ['Community'],
+      providesTags: [TAGS.COMMUNITIES]
     }),
 
-    getCommunityList: builder.query<any, void>({
+    getCommunityList: builder.query<[ICommunity], void>({
       query: () => ({
-        url: `blog_api/community/`,
+        url: `blog_api/community/`
       }),
-      providesTags: ['Community'],
+      providesTags: [TAGS.COMMUNITIES]
     }),
 
-    getCommunityPublicationList: builder.query<IPublication[], any>({
-      query: (req) => {
+    getCommunityPublicationList: builder.query<IPublication[], string>({
+      query: (title) => {
         return {
-        url: `blog_api/community/${req.title}/publications`,
-        
-      }},
+          url: `blog_api/community/${title}/publications`
+        }
+      },
       providesTags: (result) =>
-        // is result available?
         result
-          ? // successful query
-            [
-              ...result.map(({ publication }) => ({ type: 'Publication', id: publication.slug})),
-              { type: 'Publication', id: 'LIST' },
+          ? [
+              ...result.map(({ publication }) => ({
+                type: TAGS.PUBLICATIONS,
+                id: publication.slug
+              })),
+              { type: TAGS.PUBLICATIONS, id: 'LIST' }
             ]
-          : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
-            [{ type: 'Publication', id: 'LIST' }],
+          : [{ type: TAGS.PUBLICATIONS, id: 'LIST' }]
     }),
 
-    getCommunityStatistic: builder.query<any, string>({
+    getCommunityStatistic: builder.query<ICommunityStatistic, string>({
       query: (title) => ({
         url: `blog_api/community/${title}/statistic`
       }),
-      providesTags: ['Statistic']
-    }),
-
+      providesTags: [TAGS.COMMUNITIES]
+    })
   })
 })
 
 export const {
-    useGetCommunityQuery,
-    useGetCommunityPublicationListQuery,
-    useGetCommunityListQuery,
-    useGetCommunityStatisticQuery
-} = communityApi;
-    
+  useGetCommunityQuery,
+  useGetCommunityPublicationListQuery,
+  useGetCommunityListQuery,
+  useGetCommunityStatisticQuery
+} = communityApi
