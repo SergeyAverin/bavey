@@ -1,7 +1,6 @@
+import { ICommunity, ICommunityStatistic } from '../model/types'
 import { baseApi, TAGS } from '@shared/api'
 import { IPublication } from '@entities/publication'
-
-import { ICommunity, ICommunityStatistic } from '../model/types'
 
 export const communityApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

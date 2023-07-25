@@ -1,23 +1,20 @@
-import { baseApi } from '../../../shared/api'
-import { type IFriendRequest} from '../model/types'
-
+import { type IFriendRequest } from '../model/types'
+import { baseApi, TAGS } from '@shared/api'
 
 interface IFriendReqrusetsApiResult {
-    outside: [IFriendRequest],
-    inside: [IFriendRequest]
+  outside: [IFriendRequest];
+  inside: [IFriendRequest];
 }
 
 export const friendRequestApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    friendRequests: builder.query<IFriendReqrusetsApiResult, void>({
-      query: (req) => ({
+    getFriendRequests: builder.query<IFriendReqrusetsApiResult, void>({
+      query: () => ({
         url: `relations_api/friend_requests`
       }),
-      providesTags: ['FriendRequests']
-    }),
+      providesTags: [TAGS.FRIEND_REQUESTS]
+    })
   })
 })
 
-export const {
-  useFriendRequestsQuery
-} = friendRequestApi;
+export const { useGetFriendRequestsQuery } = friendRequestApi
