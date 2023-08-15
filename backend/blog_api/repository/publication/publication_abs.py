@@ -22,7 +22,7 @@ class PublicationRepository(ABC):
         pass
 
     @abstractmethod
-    def get_publication_by_user_wall(self, username: str):
+    def get_publications_from_user_wall(self, username: str):
         pass
 
     @abstractmethod
