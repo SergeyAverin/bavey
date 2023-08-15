@@ -12,6 +12,7 @@ class UpVoice(models.Model):
     class Meta:
         ordering = ['date_created']
 
+
 class DownVoice(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     voice = models.ForeignKey('Publication', on_delete=models.CASCADE)
@@ -77,7 +78,8 @@ class Community(models.Model):
     )
     # Admin is users who can create publications in this community
     admins = models.ManyToManyField(User, related_name="admin", blank=True)
-    subscribers = models.ManyToManyField(User, related_name="subscribers", blank=True)
+    subscribers = models.ManyToManyField(
+        User, related_name="subscribers", blank=True)
 
     community_avatar = models.ImageField(
         upload_to="community/community_avatar",
@@ -86,7 +88,7 @@ class Community(models.Model):
         default='user/avatars/default_avatar.png'
     )
 
-    #def save(self, *args, **kwargs):
+    # def save(self, *args, **kwargs):
     #    # auto add owner in admins and subscribers
     #    self.admins.add(self.owner)
     #    self.subscribers.add(self.owner)
@@ -101,12 +103,14 @@ class WallTypeChoices(models.TextChoices):
 class Publication(models.Model):
     title = models.CharField(max_length=200)
     # Owner is user who create this publication
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner")
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="owner")
     slug = models.SlugField(unique=True, blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
     # The wall is where the post is displayed
-    wall_type = models.CharField(max_length=10, choices=WallTypeChoices.choices)
+    wall_type = models.CharField(
+        max_length=10, choices=WallTypeChoices.choices)
     wall_user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="wall_user", null=True, blank=True
     )
@@ -134,5 +138,6 @@ class PublicationMedia(models.Model):
     image = models.ImageField(
         upload_to="user/publication_images", null=True, blank=True
     )
-    file = models.FileField(upload_to="user/publication_files", null=True, blank=True)
+    file = models.FileField(
+        upload_to="user/publication_files", null=True, blank=True)
     publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
