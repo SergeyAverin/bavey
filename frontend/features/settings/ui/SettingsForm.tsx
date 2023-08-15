@@ -24,7 +24,7 @@ export const SettingForm: React.FC = () => {
     });
     const {data, isLoading} = useGetUserQuery(username);
     
-    async function fetchImage(url){
+    async function fetchImage(url:string){
         const data = await fetch(url);
         console.log(data);
         const buffer = await data.arrayBuffer();

@@ -36,7 +36,7 @@ const FriendsPage: NextPage = () => {
                 <Relation
                   username={friend.username}
                   avatar={friend.avatar}
-                  removeFriendButtonSlot={<RemoveFriend username={friend.username} />}
+                  RemoveFriendButtonSlot={<RemoveFriend username={friend.username} />}
                 />
               </Margin>
             ))}

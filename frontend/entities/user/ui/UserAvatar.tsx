@@ -6,7 +6,7 @@ import { imageLoader } from "@shared/lib";
 import { IUser } from "../model/types";
 import { Button, Flex, Margin } from "@shared/ui";
 import { UserAvetarStyled } from "@entities/user/ui/styled";
-import { useGetRelationForUserQuery } from "@entities/relation";
+import { useGetRelationStatusQuery } from "@entities/relation";
 import Link from "next/link";
 import { CreateChatButton } from "@features/relationsButton/ui/CreateChatButton";
 
@@ -20,7 +20,7 @@ interface IUserAvetarProps {
 }
 
 export const UserAvetar: React.FC<IUserAvetarProps> = ({ user, unfriendSlot, unsubscribeSlot, subscribeSlot, addFriendSlot }) => {
-    const { data, isLoading } = useGetRelationForUserQuery(user.username);
+    const { data, isLoading } = useGetRelationStatusQuery(user.username);
     const router = useRouter();
 
     return (

@@ -2,7 +2,7 @@ import { type BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import {
   type FetchArgs,
   type FetchBaseQueryError,
-  type FetchBaseQueryMeta,
+  type FetchBaseQueryMeta
 } from '@reduxjs/toolkit/dist/query/fetchBaseQuery'
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
@@ -23,7 +23,7 @@ export const baseQuery: BaseQueryFn<
   unknown,
   FetchBaseQueryError,
   {},
-  FetchBaseQueryMeta,
+  FetchBaseQueryMeta
 > = fetchBaseQuery({
   baseUrl: getBaseQuery(),
   prepareHeaders: (headers, { getState }) => {
@@ -32,5 +32,5 @@ export const baseQuery: BaseQueryFn<
       headers.set('Authorization', `Token ${token}`)
     }
     return headers
-  },
+  }
 })

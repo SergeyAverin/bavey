@@ -70,6 +70,8 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     await Promise.all(store.dispatch(userApi.util.getRunningQueriesThunk()))
     const user = userRequest.data;
     const publications = publicationsRequest.data;
+    console.log('--publications')
+    console.log(publications)
     const friends = userFriendsRequest.data;
     
     if (!user) {

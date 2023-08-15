@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from './baseQuery'
 import { HYDRATE } from 'next-redux-wrapper'
+
 import { TAGS } from '@shared/api/tags'
 
 export const baseApi = createApi({

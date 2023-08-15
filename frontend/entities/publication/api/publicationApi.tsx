@@ -1,27 +1,19 @@
-import { baseApi } from '../../../shared/api';
-
-
-interface IDeletePublicationArgs {
-    slug: string
-}
+import { TAGS, baseApi } from '@shared/api'
 
 export const publicationCreatorApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-
-    deletePublication: builder.mutation<any, IDeletePublicationArgs>({
-        query({ slug }) {
-          return {
-            url: `blog_api/publications/${slug}`,
-            method: 'DELETE'
-          };
-        },
-        invalidatesTags: (result, error, { slug }) => [{ type: 'Publication', id: slug }]
-    }),
-
+    deletePublication: builder.mutation<any, string>({
+      query(slug) {
+        return {
+          url: `blog_api/publications/${slug}`,
+          method: 'DELETE'
+        }
+      },
+      invalidatesTags: (result, error, slug) => [
+        { type: TAGS.PUBLICATIONS, id: slug }
+      ]
+    })
   })
 })
 
-export const {
-    useDeletePublicationMutation
-} = publicationCreatorApi;
-    
+export const { useDeletePublicationMutation } = publicationCreatorApi
