@@ -1,8 +1,6 @@
 from rest_framework import serializers
 
 from .models import Publication, PublicationMedia, Community
-from blog_api.models import User
-from auth_api.serializers import UserSerializer
 
 
 class PublicationMediaSerializer(serializers.ModelSerializer):
@@ -14,6 +12,7 @@ class PublicationMediaSerializer(serializers.ModelSerializer):
             'file'
         ]
 
+
 class PublicationSerializer(serializers.ModelSerializer):
     publication_media = PublicationMediaSerializer(many=True, read_only=True)
 
@@ -21,7 +20,7 @@ class PublicationSerializer(serializers.ModelSerializer):
         model = Publication
         fields = [
             'title',
-            'slug', 
+            'slug',
             'wall_type',
             'wall_user',
             'wall_community',

@@ -2,11 +2,12 @@ from rest_framework import serializers
 
 from .models import ChatMessage, Chat
 from blog_api.models import User
-from blog_api.serializers import UserSerializer
+from auth_api.serializers import UserSerializer
 
 
 class ChatMessageSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+
     class Meta:
         model = ChatMessage
         fields = [

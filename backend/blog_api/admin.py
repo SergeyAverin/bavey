@@ -9,4 +9,3 @@ admin.site.register(models.User)
 admin.site.register(models.Subscription)
 admin.site.register(models.PublicationMedia)
 admin.site.register(models.UpVoice)
-    

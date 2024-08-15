@@ -3,7 +3,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from blog_api.serializers import UserSerializer
+from .serializers import UserSerializer
 from .service import AuthService
 
 

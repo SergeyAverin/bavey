@@ -2,7 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .service import search_community, search_publication, search_user
-from blog_api.serializers import UserSerializer, CommunitySerializer, PublicationSerializer
+from blog_api.serializers import CommunitySerializer, PublicationSerializer
+from auth_api.serializers import UserSerializer
 
 
 @api_view()

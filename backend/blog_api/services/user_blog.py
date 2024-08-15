@@ -5,10 +5,11 @@ from django.db.models import QuerySet
 from rest_framework.exceptions import ValidationError
 
 from blog_api.models import User, Publication, WallTypeChoices, PublicationMedia, MediaTypeChoices
-from blog_api.serializers import UserSerializer
+from auth_api.serializers import UserSerializer
 
 
 logger = logging.getLogger()
+
 
 class UserBlogService:
     def get_user_by_username(self, username: str) -> User:
@@ -39,7 +40,8 @@ class UserBlogService:
         :return: list publication from user wall.
         """
         user = self.get_user_by_username(username)
-        publications = Publication.objects.filter(wall_user=user).order_by('-creation_date')
+        publications = Publication.objects.filter(
+            wall_user=user).order_by('-creation_date')
         return publications
 
     def create_publication_on_user_wall(
