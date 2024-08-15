@@ -13,5 +13,9 @@ export default createGlobalStyle`
     text-decoration: none;
     font-size: 18px;
   }
+  img {
+        object-fit: contain;
+
+    }
 `;
 

@@ -2,7 +2,8 @@ import React from "react";
 
 import { StatisticStyled } from "./styled";
 import { Flex } from "@shared/ui";
-import { useGetUserStatisticQuery } from '@entities/User';
+import { useGetUserStatisticQuery } from '@entities/user';
+import { StatisticTitleStyled } from "./styled";
 
 
 interface IUserStatisticProps {
@@ -11,19 +12,19 @@ interface IUserStatisticProps {
 
 export const UserStatistic: React.FC<IUserStatisticProps> = ({ username }) => {
     const {data, isLoading} = useGetUserStatisticQuery(username);
-    console.log(data)
+
     return (
         <StatisticStyled>
             <Flex alignItems="flex-start" justifyContent="flex-start" flexDirection="column">
-                Statistic
+                <StatisticTitleStyled>Статистика</StatisticTitleStyled>
                 { isLoading
                 ? 'loading'
                 : <div>
-                    <Flex alignItems="center" justifyContent="space-between">Friends: {data.friends}</Flex>
-                    <Flex alignItems="center" justifyContent="space-between">Subscriptions: {data.subscriptions}</Flex>
-                    <Flex alignItems="center" justifyContent="space-between">Subscribercs: {data.subscribers}</Flex>
-                    <Flex alignItems="center" justifyContent="space-between">publications: {data.publications}</Flex>
-                </div>}
+                    <Flex alignItems="center" justifyContent="space-between">Друзья: {data.friends}</Flex>
+                    <Flex alignItems="center" justifyContent="space-between">Подписчики: {data.subscribers}</Flex>
+                    <Flex alignItems="center" justifyContent="space-between">Подписки: {data.subscriptions}</Flex>
+                    <Flex alignItems="center" justifyContent="space-between">Публикации: {data.publications}</Flex>
+                </div>} 
 
             </Flex>
         </StatisticStyled>

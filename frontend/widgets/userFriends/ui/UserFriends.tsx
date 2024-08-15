@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import { UserFriendsStyled, UserFriendsTitleStyled } from "./styled";
-import { UserMini } from "@entities/User";
+import { UserMini } from "@entities/user";
 import { Margin } from "@shared/ui";
 
 
@@ -16,7 +16,7 @@ export const UserFriends: React.FC<IUserFriendsProps> = ({ friends, username }) 
         <UserFriendsStyled>
             <UserFriendsTitleStyled>
                 <Link href={`/friends?username=${username}`}>
-                    Friends
+                    Друзья
                 </Link>
             </UserFriendsTitleStyled>
             { friends.map((friend) => (
@@ -24,7 +24,7 @@ export const UserFriends: React.FC<IUserFriendsProps> = ({ friends, username }) 
                  <UserMini user={friend} />
                 </Margin>
             ))}
-            { friends.length == 0 && <div>No friends</div> }
+            { friends.length == 0 && <div>Нет друзей</div> }
         </UserFriendsStyled>
     )
 }

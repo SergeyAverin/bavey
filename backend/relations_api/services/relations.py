@@ -1,9 +1,14 @@
+import logging
+
 from django.shortcuts import get_object_or_404
 from django.db.models import QuerySet
 
 from blog_api.models import User, Subscription
-from blog_api.serializers import UserSerializer
+from auth_api.serializers import UserSerializer
 from relations_api.relation_status import RelationStatus
+
+
+logger = logging.getLogger()
 
 
 class RelationsService:
@@ -48,7 +53,6 @@ class RelationsService:
         """
         subscriber = Subscription.objects.create(subscription_user=slave_user)
         master_user.user_subscriptions.add(subscriber)
-        
 
     def remove_subscribe(self, master_user: User, slave_user: User) -> None:
         """
@@ -91,8 +95,8 @@ class RelationsService:
         :return: User's subscribers QuerySet.
         """
         return Subscription.objects.filter(subscription_user=user)
-    
-    def get_subscriptions(self, user:User):
+
+    def get_subscriptions(self, user: User):
         return user.user_subscriptions.all()
 
     def get_user_relations_serialized(self, user):
@@ -100,10 +104,21 @@ class RelationsService:
         subscribers = self.get_subsctibers(user)
         subscriptions = self.get_subscriptions(user)
 
-        subscribers_serializer = UserSerializer(subscribers, many=True)
-        friends_serializer = UserSerializer(friends, many=True)
-        subscriptions_serializer = UserSerializer(subscriptions, many=True)
+        subscribers_data = []
+        for subscriber in subscribers:
+            data = subscriber.subscription_user
+            subscribers_data.append(data)
 
+        subscriptions_data = []
+        for subscription in subscriptions:
+            data = subscription.subscription_user
+            subscriptions_data.append(data)
+
+        subscribers_serializer = UserSerializer(subscribers_data, many=True)
+        friends_serializer = UserSerializer(friends, many=True)
+        subscriptions_serializer = UserSerializer(
+            subscriptions_data, many=True)
+        logger.error(subscriptions)
         return {
             "subscribers": subscribers_serializer.data,
             "friends": friends_serializer.data,
@@ -126,5 +141,7 @@ class RelationsService:
             relation_type = RelationStatus.SUBSCRIBED
         if slave_user.user_subscriptions.filter(subscription_user=master_user).exists():
             relation_type = RelationStatus.SUBSCRIBER
+        if master_user == slave_user:
+            relation_type = RelationStatus.PROFILE
 
         return relation_type

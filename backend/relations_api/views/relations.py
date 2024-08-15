@@ -27,11 +27,15 @@ class RelationsList(APIView):
 
 
 class RelationshipView(APIView):
-    permission_classes = (IsAuthenticated, )
     relations_service = RelationsService()
 
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
+
+        if not request.user.is_authenticated:
+            return Response({
+                'relationship_type': 'no_auth'
+            }, status=status.HTTP_200_OK)
 
         relation_type = self.relations_service.get_relation_type(
             request.user,
@@ -70,7 +74,7 @@ class RelationUnsubscribe(APIView):
         )
         if len(friend_request) > 0:
             friend_request.delete()
-        
+
         self.relations_service.remove_subscribe(user, friend)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

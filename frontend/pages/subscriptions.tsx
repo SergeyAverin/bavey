@@ -1,44 +1,40 @@
 import type { NextPage } from 'next'
 
-import { useNavigation } from '../providers/NavigationProviders';
-import { useGetSubscriptionsListQuery } from '../redux/api/communityApi';
-import SubscriptionCommunity from '../components/SubscriptionCommunity/SubscriptionCommunity';
-import BaseLayout from '../components/BaseLayout/BaseLayout';
-import WrapperStyled from '../styles/components/Wrapper';
-import Margin from '../styles/components/Margin';
+import { Wrapper, TwoColumnGrid, Margin } from '@shared/ui';
+import { Header } from '@widgets/header';
+import { Subscription } from '@entities/community';
+import { withAuth } from '@entities/viewer';
+import { UnsubscriptionButton } from '@features/communityButton';
+import { useGetCommunityListQuery } from '@entities/community/api/communityApi';
+import { CreateCommunity } from '@features/createCommunity';
 
 
-const LogoutPage: NextPage = () => {
-  const navigation = useNavigation();
-  const { isLoading, data } = useGetSubscriptionsListQuery();
-  navigation?.setActivePage('Subscriptions')
-  
-  let subscriptionsCommunities: any[] = [];
-  if (data)  {
-    console.log(data)
-    subscriptionsCommunities = data.map((community) => (
-       <SubscriptionCommunity community={community} key={community.slug} />
-    ));
+const SubsctiptionPage: NextPage = () => {
+  const { data, isLoading } = useGetCommunityListQuery();
+  let communites = [];
+  if (data) {
+    communites = data;
   }
-
   return (
-    <BaseLayout>
-        <WrapperStyled>
-            <Margin mg="90px 0 0 0">
-                { !isLoading &&
-                    <div>
-                        { subscriptionsCommunities }
-                    </div>
-                }
-                { !isLoading && data.length == 0 &&
-                    <h2>
-                        No subscriptions
-                    </h2>
-                }
-            </Margin>
-        </WrapperStyled>
-    </BaseLayout>
+    <>
+      <Header />
+      <Margin mt={100}> 
+        <Wrapper>
+          <CreateCommunity />
+          {communites.map((community) => (
+              <Margin mb={30} key={community.title}>
+                  <Subscription
+                    community={community}
+                    communitySubscribeButton={<UnsubscriptionButton title={community.title} />} />
+              </Margin>
+            ))}
+            {communites.length == 0 &&
+              <h2>Нет сообществ</h2>
+            }
+        </Wrapper>
+      </Margin>
+    </>
   )
-}
+};
 
-export default LogoutPage;
+export default withAuth(SubsctiptionPage);

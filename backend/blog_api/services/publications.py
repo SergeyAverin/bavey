@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404
 
-from blog_api.models import Publication, User
-from blog_api.serializers import PublicationSerializer, UserSerializer
+from blog_api.models import Publication, User, PublicationMedia
+from blog_api.serializers import PublicationSerializer, PublicationMediaSerializer, CommunitySerializer
+from auth_api.serializers import UserSerializer
 
 
 class PublicationService:
@@ -38,12 +39,19 @@ class PublicationService:
             for publication in publications:
                 voices_up = publication.voices_up.all()
                 voices_down = publication.voices_down.all()
+                bookmarks = publication.bookmarks.all()
+                publication_media = PublicationMedia.objects.filter(
+                    publication=publication)
+                community = CommunitySerializer(publication.wall_community)
                 data.append(
                     {
                         "publication": PublicationSerializer(publication).data,
                         "owner": UserSerializer(publication.owner).data,
                         "voices_up": UserSerializer(voices_up, many=True).data,
                         "voices_down": UserSerializer(voices_down, many=True).data,
+                        "bookmarks": UserSerializer(bookmarks, many=True).data,
+                        "publication_media": PublicationMediaSerializer(publication_media, many=True).data,
+                        'community': community.data
                     }
                 )
         return data

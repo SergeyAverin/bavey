@@ -11,67 +11,27 @@ import FlexStyled from '../styles/components/Flex';
 import ButtonStyled from '../styles/components/Button';
 import { useProfileQuery, useUpdateUserMutation } from '../redux/api/userApi';
 import { SubmitStyled } from '../styles/components/Submit';
+import { Header } from '@widgets/header';
+import { Wrapper } from '@shared/ui';
+import { Subscription } from '@entities/community';
+import { SettingForm } from '@features/settings/ui/SettingsForm';
+import { withAuth } from '@entities/viewer';
+import dynamic from 'next/dynamic'
 
 
-
-const ProfilePage: NextPage = () => {
-    const [updateUser] = useUpdateUserMutation();
-    const router = useRouter();
-    const [userSetting, setUserSetting] = useState({
-        username: '',
-        first_name: '',
-        last_name: '',
-        description: '',
-        country: '',
-        city: '',
-    });
-    const {data, isLoading} = useProfileQuery();
-
-    const submitHandler = (event: React.SyntheticEvent) => {
-        event.preventDefault();
-        updateUser(userSetting);
-        router.push('/profile')
-    };
-
-    const clickCancelHandler = () => {
-        router.back()
-    };
-
-    useEffect(()=>{
-        if (!isLoading) {
-            setUserSetting({
-                username: data.username,
-                first_name: data.first_name,
-                last_name: data.last_name,
-                description: data.description,
-                country: data.country,
-                city: data.city,
-            })
-        }
-    }, [isLoading])
-
-    const navigation = useNavigation();
-    navigation?.setActivePage('Setting')
-
+const SettingPage: NextPage = () => {
     return (
-        <BaseLayout>
-            <WrapperStyled>
-                <form onSubmit={submitHandler}>
-                    <Margin mg="100px 0 0 0">
-                        <FlexStyled alignItems='center' justifyContent='space-between'>
-                            <ButtonStyled onClick={clickCancelHandler}>Cancel</ButtonStyled>
-                            <SubmitStyled value="Applay" /> 
-                        </FlexStyled>
-                        <Margin mg="15px 0 0 0">
-                            {!isLoading &&
-                                <SettingsPanel userSetting={ userSetting } setUserSetting={ setUserSetting } />                            
-                            }
-                        </Margin>
-                    </Margin>
-                </form>
-            </WrapperStyled>
-        </BaseLayout>
+        <>
+            <Header />
+            <Margin mt={100}>
+                <Wrapper>
+                    <SettingForm />
+                </Wrapper>
+            </Margin>
+        </>
     )
 };
 
-export default ProfilePage;
+export default dynamic(() => Promise.resolve(withAuth(SettingPage)), {
+    ssr: false
+});

@@ -25,31 +25,35 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ['BACKEND_DEBUG_MODE'])
 
-ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
+ALLOWED_HOSTS = ['backend', '127.0.0.1']
 CORS_ALLOWED_ORIGINS = [os.environ['CORS_ALLOWED_ORIGINS']]
-
-ALLOWED_HOSTS = [os.environ['HOST']]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'messenger_api',
+    'channels',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #           'django_celery_results',
 
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'django_elasticsearch_dsl',
 
     'blog_api',
     'relations_api',
-    'auth_api'
+    'auth_api',
+    'search_api',
 ]
 
 MIDDLEWARE = [
@@ -154,3 +158,21 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 1,
 }
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': os.environ['ELASTICSEARCH_HOST']
+    },
+}
+ASGI_APPLICATION = "bavey.asgi.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
+        },
+    },
+}
+
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'

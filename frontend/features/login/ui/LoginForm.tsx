@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useRouter } from 'next/router';
 import Link from "next/link";
 
-import { AuthFormStyled, AuthLayoutStyled, FormTitle, SubmitStyled } from './styled';
+import { AuthFormStyled, AuthLayoutStyled, FormTitle, SubmitStyled, ValidateFail } from './styled';
 import { Margin, Flex, Input } from '@shared/ui';
 import { useLoginMutation, useViewer } from "@entities/viewer";
 
@@ -10,7 +10,7 @@ import BaveyLogo from "@public/baveyLogo.svg"
 
 
 export const LoginForm: React.FC = () => {
-  const [login] = useLoginMutation();
+  const [login, error] = useLoginMutation();
   const viewerContext = useViewer();
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -42,16 +42,20 @@ export const LoginForm: React.FC = () => {
         </Margin>
         <Flex justifyContent='space-between' alignItems='flex-start'>
           <div>
+
+            { error.status == 'rejected' && <ValidateFail>Не верный логин или пароль</ValidateFail> }
             <Margin mt={15}>
-              <Link href="#">Забыл пароль</Link>
-            </Margin>
-            <Margin mt={15}>
-              <Link href="#">Регистрация</Link>
+              <Link href="/registration">Регистрация</Link>
             </Margin>
           </div>
         </Flex>
-        <SubmitStyled value='Sign in'/>
+        <SubmitStyled value='Войти'/>
       </AuthFormStyled>
     </AuthLayoutStyled>
   )
 };
+/*
+  <Margin mt={15}>
+    <Link href="#">Забыл пароль</Link>
+  </Margin>
+*/
